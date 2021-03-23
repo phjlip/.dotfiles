@@ -40,6 +40,11 @@
                    eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+(setq history-length 100)
+(put 'minibuffer-history 'history-length 50)
+(put 'evil-ex-history 'history-length 50)
+(put 'kill-ring 'history-length 25)
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -57,31 +62,6 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; (after! persp-mode
-;;     (persp-def-buffer-save/load
-;;      :save-function (lambda (b)
-;;       (with-current-buffer b
-;;         (when (string= major-mode "mu4e")
-;;           `(def-mu4e-buffer ,(buffer-name) ,default-directory))))
-;;      :load-function (lambda (savelist)
-;;       (when (eq (car savelist) 'def-mu4e-buffer)
-;;         (with-current-buffer (get-buffer-create (cadr savelist))
-;;           (setq default-directory (caddr savelist))
-;;           (require 'mu4e)
-;;           (mu4e))))))
-
-
-;; unbind
-;; (map! :after evil-org-mode outline-mode-map
-;;       :map (outline-mode-map global-map evil-org-mode-map)
-;;       :ni "M-l" nil
-;;       :ni "M-j" nil
-;;       :n  "C-j" nil
-;;       :ni "M-k" nil
-;;       :n  "C-k" nil
-
-;; (map! :map evil-motion-state-map
-;;       :n "<return>" nil)
 
 ;; bind FIXME doesn't load bindings reliably (always have to reload hrr) -> :after?
 (map! :map (outline-mode-map global-map evil-org-mode-map)
@@ -146,70 +126,6 @@
 
   (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
   (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync))))
-
-
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-(use-package! mu4e
-  ;; :ensure nil
-  :config
-  (setq mu4e-get-mail-command "mbsync -c ~/.config/mu4e/mbsyncrc -a"
-        mu4e-change-filenames-when-moving t
-        mu4e-compose-format-flowed t
-        message-kill-buffer-on-exit t
-        mu4e-update-interval  (* 10 60)
-        message-send-mail-function 'smtpmail-send-it
-        mu4e-sent-folder "/pgottsch-up/Sent"
-        mu4e-drafts-folder "/pgottsch-up/Drafts"
-        mu4e-trash-folder "/pgottsch-up/Trash")
-
-
-  (setq mu4e-contexts
-        (list
-          ;; Uni Potsdam
-          (make-mu4e-context
-          :name "UP"
-          :match-func
-            (lambda (msg)
-              (when msg
-                (string-prefix-p "/pgottsch-up" (mu4e-message-field msg :maildir))))
-          :vars '((user-mail-address . "pgottsch@uni-potsdam.de")
-                  (user-full-name    . "Philip Gottschall")
-                  (smtpmail-smtp-user  . "pgottsch@uni-potsdam.de")
-                  (smtpmail-smtp-server  . "smtp.uni-potsdam.de")
-                  (smtpmail-smtp-service . 465)
-                  (smtpmail-stream-type  . ssl)
-                  ;; (smtpmail-auth-credentials . (expand-file-name "~/.config/mu4e/authinfo.gpg"))
-                  (mu4e-maildir-shortcuts . (("/pgottsch-up/Inbox"      . ?i)
-                                              ("/pgottsch-up/Sent Mail" . ?s)
-                                              ("/pgottsch-up/Drafts"     . ?d)
-                                              ("/pgottsch-up/Trash"     . ?t)))
-                  (mu4e-sent-folder . "/pgottsch-up/Sent")
-                  (mu4e-drafts-folder . "/pgottsch-up/Drafts")
-                  (mu4e-refile-folder . "/pgottsch-up/Archive")
-                  (mu4e-trash-folder . "/pgottsch-up/Trash")))
-
-          ;; Personal
-          (make-mu4e-context
-          :name "Personal"
-          :match-func
-            (lambda (msg)
-              (when msg
-                (string-prefix-p "/philipgottschall-gmail" (mu4e-message-field msg :maildir))))
-          :vars '((user-mail-address . "philipgottschall@gmail.com")
-                  (user-full-name    . "Philip Gottschall")
-                  (smtpmail-smtp-user  . "philipgottschall@gmail.com")
-                  (smtpmail-smtp-server  . "smtp.gmail.com")
-                  (smtpmail-smtp-service . 465)
-                  (smtpmail-stream-type  . ssl)
-                  ;; (smtpmail-auth-credentials . (expand-file-name "~/.config/mu4e/authinfo.gpg"))
-                  (mu4e-maildir-shortcuts . (("/philipgottschall-gmail/Inbox"      . ?i)
-                                              ("/philipgottschall-gmail/Sent Mail" . ?s)
-                                              ("/philipgottschall-gmail/Drafts"     . ?d)
-                                              ("/philipgottschall-gmail/Trash"     . ?t)))
-                  (mu4e-sent-folder  . "/philipgottschall-gmail/Sent")
-                  (mu4e-drafts-folder  . "/philipgottschall-gmail/Drafts")
-                  (mu4e-refile-folder  . "/philipgottschall-gmail/All Mail")
-                  (mu4e-trash-folder  . "/philipgottschall-gmail/Trash"))))))
 
 
 (defun efs/org-font-setup ()
@@ -371,30 +287,8 @@
 
       ("a" "Appointment")
       ("aa" "General" entry (file "~/Dropbox/org/agenda/Google.org")
-           "* %?\n" :empty-lines 1)))
+           "* %?\n" :empty-lines 1))))
 
-)
-
-;; ("j" "Journal Entries")
-;; ("jj" "Journal" entry
-;;      (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
-;;      "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
-;;      ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
-;;      :clock-in :clock-resume
-;;      :empty-lines 1)
-;; ("jm" "Meeting" entry
-;;      (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
-;;      "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
-;;      :clock-in :clock-resume
-;;      :empty-lines 1)
-
-;; ("w" "Workflows")
-;; ("we" "Checking Email" entry (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
-;;      "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
-
-;; ("m" "Metrics Capture")
-;; ("mw" "Weight" table-line (file+headline "~/Projects/Code/emacs-from-scratch/OrgFiles/Metrics.org" "Weight")
-;;  "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
 
 (use-package! org-roam
   :config
@@ -404,6 +298,14 @@
         '(("f" "New File" plain (function org-roam--capture-get-point)
                :file-name "%(read-directory-name \"path: \" \"~/Dropbox/org/roam/\")/${slug}"
                :head "#+title: ${title}\n#+created: %(format-time-string \"[%Y-%m-%d]\")\n#+roam_key: ${key}\n#+roam_tags: ${tags}\n\n%?"
+               :unnarrowed t)
+          ("wf" "New File" plain (function org-roam--capture-get-point)
+               :file-name "%(read-directory-name \"path: \" \"~/kiwissen/\")/${slug}"
+               :head "#+title: ${title}\n#+created: %(format-time-string \"[%Y-%m-%d]\")\n#+roam_key: ${key}\n#+roam_tags: ${tags}\n\n%?"
+               :unnarrowed t)
+          ("wn" "Work Note" plain (function org-roam--capture-get-point)
+               :file-name "%(read-directory-name \"path: \" \"~/kiwissen/\")/${slug}"
+               :head "#+title: ${title}\n#+created: %(format-time-string \"[%Y-%m-%d]\")\n\n%?"
                :unnarrowed t)
           ("n" "Note" plain (function org-roam--capture-get-point)
                :file-name "%(read-directory-name \"path: \" \"~/Dropbox/org/roam/\")/${slug}"
