@@ -308,18 +308,14 @@
     '(("d" "Dashboard"
       ((agenda "" ((org-deadline-warning-days 7)))
         (todo "NEXT" ((org-agenda-overriding-header "Next Tasks")))
-        (tags-todo "+TODO=\"TODO\"+@work" ((org-agenda-overriding-header "Work Todos")))
-        (tags-todo "+TODO=\"TODO\"+@uni" ((org-agenda-overriding-header "Uni Todos")))
-        (tags-todo "+TODO=\"TODO\"+@home" ((org-agenda-overriding-header "Home Todos")))
-        (tags-todo "+TODO=\"TODO\"+@private" ((org-agenda-overriding-header "Private Todos")))
-        (tags-todo "+TODO=\"TODO\"+@system" ((org-agenda-overriding-header "System Todos")))))
+        (tags-todo "+TODO=\"TODO\"+@work+LEVEL=2" ((org-agenda-overriding-header "Work")))
+        (tags-todo "+TODO=\"TODO\"+@uni+LEVEL=2" ((org-agenda-overriding-header "Uni")))
+        (tags-todo "+TODO=\"TODO\"+@home+LEVEL=2" ((org-agenda-overriding-header "Home")))
+        (tags-todo "+TODO=\"TODO\"+@private+LEVEL=2" ((org-agenda-overriding-header "Private")))
+        (tags-todo "+TODO=\"TODO\"+@system+LEVEL=2" ((org-agenda-overriding-header "System")))))
 
     ("n" "Next Tasks"
       ((todo "NEXT" ((org-agenda-overriding-header "Next Tasks")))))
-
-    ("u" tags-tree "+@home" ((org-show-context-detail 'minimal)))
-
-    ("W" "Work Tasks" tags-todo "+work")
 
     ;; Low-effort next actions
     ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
@@ -359,7 +355,7 @@
   (setq org-capture-templates
     `(("t" "Tasks")
       ("tt" "Todo" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
-           "* TODO  %? \n  %u\n  %i" :empty-lines 1)
+           "* TODO %? %^{Task} \t %^G\n  %u\n  %i" :empty-lines 1)
       ("tn" "Next" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
            "* NEXT  %?  %^{Task}  %^G\n  %u\n  %i" :empty-lines 1)
       ("tw" "Work in Progress" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
