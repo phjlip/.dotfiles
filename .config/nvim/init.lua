@@ -64,6 +64,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'romgrk/barbar.nvim'
     Plug 'b3nj5m1n/kommentary'
     Plug 'jiangmiao/auto-pairs'
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 call plug#end()
 ]],
 true)
