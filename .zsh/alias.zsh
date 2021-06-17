@@ -5,8 +5,6 @@ alias ls='exa -l --group-directories-first'
 alias ll='ls -a'
 alias rm='rm -i'
 
-alias cat='bat'
-
 alias tmux='TERM=xterm-256color tmux'
 
 alias v=/usr/bin/vim
