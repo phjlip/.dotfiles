@@ -201,6 +201,9 @@ awful.screen.connect_for_each_screen(function(s)
 
     local battery_widget = require("widgets.battery")
     local logout_widget = require("widgets.logout")
+    local cpu_widget = require("widgets.cpu")
+    local ram_widget = require("widgets.ram")
+    local volume_widget = require("widgets.volume")
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -213,9 +216,14 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            battery_widget(),
             wibox.widget.systray(),
+            mykeyboardlayout,
+            volume_widget{
+                widget_type = 'arc'
+            },
+            cpu_widget(),
+            ram_widget(),
+            battery_widget(),
             mytextclock,
             s.mylayoutbox,
             logout_widget(),
@@ -355,12 +363,14 @@ globalkeys = gears.table.join(
 
     -- Volume Keys
     --   amixer -D pulse set Master 1+ toggle amixer -q -D pulse sset Master 5%-
-    awful.key({}, "XF86AudioLowerVolume", function () awful.util.spawn("pactl set-sink-volume 0 -5%", false) end,
+    awful.key({}, "XF86AudioLowerVolume", function () awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%", false) end,
               {description = "decrease volume", group = "media"}),
-    awful.key({}, "XF86AudioRaiseVolume", function () awful.util.spawn("pactl set-sink-volume 0 +5%", false) end,
+    awful.key({}, "XF86AudioRaiseVolume", function () awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%", false) end,
               {description = "increase volume", group = "media"}),
-    awful.key({}, "XF86AudioMute", function () awful.util.spawn("pactl set-sink-mute 0 toggle", false) end,
+    awful.key({}, "XF86AudioMute", function () awful.util.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle", false) end,
               {description = "mute volume", group = "media"}),
+    awful.key({}, "XF86AudioMicMute", function () awful.util.spawn("amixer set Capture toggle", false) end,
+              {description = "mute mic", group = "media"}),
 
     -- Multimedia Keys
     awful.key({}, "XF86AudioPlay", function() awful.util.spawn("playerctl play-pause", false) end,
