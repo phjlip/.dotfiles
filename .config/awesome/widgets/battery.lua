@@ -78,7 +78,7 @@ local function worker(user_args)
     -- One way of creating a pop-up notification - naughty.notify
     local notification
     local function show_battery_status(batteryType)
-        awful.spawn.easy_async([[bash -c 'acpi']],
+        awful.spawn.easy_async([[bash -c 'acpi | grep -v "unavailable"']],
         function(stdout, _, _, _)
             naughty.destroy(notification)
             notification = naughty.notify{
@@ -126,12 +126,14 @@ local function worker(user_args)
         local battery_info = {}
         local capacities = {}
         for s in stdout:gmatch("[^\r\n]+") do
-            local status, charge_str, _ = string.match(s, '.+: (%a+), (%d?%d?%d)%%,?(.*)')
-            if status ~= nil then
-                table.insert(battery_info, {status = status, charge = tonumber(charge_str)})
-            else
-                local cap_str = string.match(s, '.+:.+last full capacity (%d+)')
-                table.insert(capacities, tonumber(cap_str))
+            if not string.match(s, "unavailable") then
+                local status, charge_str, _ = string.match(s, '.+: (%a+), (%d?%d?%d)%%,?(.*)')
+                if status ~= nil then
+                    table.insert(battery_info, {status = status, charge = tonumber(charge_str)})
+                else
+                    local cap_str = string.match(s, '.+:.+last full capacity (%d+)')
+                    table.insert(capacities, tonumber(cap_str))
+                end
             end
         end
 
@@ -159,7 +161,7 @@ local function worker(user_args)
         if (charge >= 0 and charge < 15) then
             batteryType = "battery-empty%s"
             if enable_battery_warning and status ~= 'Charging' and os.difftime(os.time(), last_battery_check) > 300 then
-                -- if 5 minutes have elapsed since the last warning
+                -- when 5 minutes have elapsed since the last warning
                 last_battery_check = os.time()
 
                 show_battery_warning()
@@ -176,6 +178,7 @@ local function worker(user_args)
         end
 
         widget.icon:set_image(path_to_icons .. batteryType .. ".svg")
+        -- widget.icon:set_image(path_to_icons .. "battery-caution" .. ".svg")
 
         if show_current_level and status ~= 'Unknown' then
             level_widget.text = string.format('%.f%%', charge)

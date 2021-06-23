@@ -12,10 +12,7 @@ fi
 
 echo "\033[32;1m$(fortune | cowsay -f tux)\033[0m \n"
 
-# vi keybindings
-bindkey -v
-bindkey "^R" history-incremental-search-backward
-
+# Cursor Style
 function zle-line-init zle-keymap-select {
     if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
         echo -ne "\e[1 q"
@@ -25,8 +22,19 @@ function zle-line-init zle-keymap-select {
     fi
 }
 
+# Widget
 zle -N zle-keymap-select
 zle -N zle-line-init
+zle -N history-substring-search-up
+zle -N history-substring-search-down
+
+# vi keybindings
+bindkey -v
+bindkey "^R" history-incremental-search-backward
+bindkey "^[[A" history-substring-search-up
+bindkey "^[[B" history-substring-search-down
+bindkey -M vicmd "k" history-substring-search-up
+bindkey -M vicmd "j" history-substring-search-down
 
 # alias
 source ~/.zsh/alias.zsh
@@ -72,3 +80,5 @@ stty -ixon
 
 # sourcing syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh

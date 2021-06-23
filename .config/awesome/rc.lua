@@ -201,6 +201,9 @@ awful.screen.connect_for_each_screen(function(s)
 
     local battery_widget = require("widgets.battery")
     local logout_widget = require("widgets.logout")
+    local cpu_widget = require("widgets.cpu")
+    local ram_widget = require("widgets.ram")
+    local volume_widget = require("widgets.volume")
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -213,9 +216,14 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            battery_widget(),
             wibox.widget.systray(),
+            mykeyboardlayout,
+            volume_widget{
+                widget_type = 'arc'
+            },
+            cpu_widget(),
+            ram_widget(),
+            battery_widget(),
             mytextclock,
             s.mylayoutbox,
             logout_widget(),
@@ -361,6 +369,8 @@ globalkeys = gears.table.join(
               {description = "increase volume", group = "media"}),
     awful.key({}, "XF86AudioMute", function () awful.util.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle", false) end,
               {description = "mute volume", group = "media"}),
+    awful.key({}, "XF86AudioMicMute", function () awful.util.spawn("amixer set Capture toggle", false) end,
+              {description = "mute mic", group = "media"}),
 
     -- Multimedia Keys
     awful.key({}, "XF86AudioPlay", function() awful.util.spawn("playerctl play-pause", false) end,
