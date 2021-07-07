@@ -13,6 +13,9 @@
 (package! org-ref)
 (package! org-super-agenda)
 (package! org-roam-bibtex)
+(package! org-tree-slide)
+
+(package! ox-wk)
 
 (package! visual-fill-column)
 

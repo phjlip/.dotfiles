@@ -117,15 +117,15 @@
   (auth-source-pass-enable))
 
 
-(use-package! org-gcal
-  :after org
-  :config
-  (setq org-gcal-client-id (auth-source-pass-get "client_id" "org-gcal")
-        org-gcal-client-secret (auth-source-pass-get "client_secret" "org-gcal")
-        org-gcal-file-alist '(("philipgottschall@gmail.com" . "~/Dropbox/org/agenda/Google.org")))
+;; (use-package! org-gcal
+;;   :after org
+;;   :config
+;;   (setq org-gcal-client-id (auth-source-pass-get "client_id" "org-gcal")
+;;         org-gcal-client-secret (auth-source-pass-get "client_secret" "org-gcal")
+;;         org-gcal-file-alist '(("philipgottschall@gmail.com" . "~/Dropbox/org/agenda/Google.org")))
 
-  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
-  (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync))))
+;;   (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
+;;   (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync))))
 
 
 (defun efs/org-font-setup ()
@@ -170,7 +170,6 @@
 
   ;; HACK Initialize indent-mode so that face attribute can be set in font-setup
   ;; (org-indent-mode -1)
-
   (setq org-ellipsis " ▾")
   ;; (setq org-startup-indented 1)
   ;; (setq org-startup-folded 1) ;TODO ?
