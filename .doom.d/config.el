@@ -15,7 +15,7 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 13)
+(setq doom-font (font-spec :family "Iosevka nerd font" :size 14)
       doom-variable-pitch-font (font-spec :family "Cantarell" :size 14))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -30,6 +30,8 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
+
+(setq confirm-kill-emacs nil)
 
 (visual-line-mode 1)
 (adaptive-wrap-prefix-mode 1)
@@ -57,33 +59,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; (after! persp-mode
-;;     (persp-def-buffer-save/load
-;;      :save-function (lambda (b)
-;;       (with-current-buffer b
-;;         (when (string= major-mode "mu4e")
-;;           `(def-mu4e-buffer ,(buffer-name) ,default-directory))))
-;;      :load-function (lambda (savelist)
-;;       (when (eq (car savelist) 'def-mu4e-buffer)
-;;         (with-current-buffer (get-buffer-create (cadr savelist))
-;;           (setq default-directory (caddr savelist))
-;;           (require 'mu4e)
-;;           (mu4e))))))
 
-
-;; unbind
-;; (map! :after evil-org-mode outline-mode-map
-;;       :map (outline-mode-map global-map evil-org-mode-map)
-;;       :ni "M-l" nil
-;;       :ni "M-j" nil
-;;       :n  "C-j" nil
-;;       :ni "M-k" nil
-;;       :n  "C-k" nil
-
-;; (map! :map evil-motion-state-map
-;;       :n "<return>" nil)
-
-;; bind FIXME doesn't load bindings reliably (always have to reload hrr) -> :after?
 (map! :map (outline-mode-map global-map evil-org-mode-map)
       :niver "M-l" (lambda () (interactive) (evil-escape) (right-char))
       :niver "M-h" 'evil-escape
@@ -97,15 +73,13 @@
       :nv       "j"     'evil-next-visual-line
       :nv       "k"     'evil-previous-visual-line)
 
+(map! :map (evil-org-mode-map org-agenda-mode-map)
+      "M-L"    'org-agenda-date-later-hours
+      "M-H"    'org-agenda-date-earlier-hours
+      "M-l"    'org-agenda-date-later-minutes
+      "M-h"    'org-agenda-date-earlier-minutes)
+
 (map! :leader :desc "Calendar" :g "o c" 'mycal)
-
-
-;; :n     "<return>" (lambda () (interactive) (evil-next-line 1) (newline) (evil-previous-line 2))
-
-;; FIXME should be saving *buffers* (header buffers?) to persp-mode
-(setq desktop-files-not-to-save "^$")
-(setq desktop-buffers-not-to-save "^$")
-
 
 (defun mycal ()
   (interactive)
@@ -113,18 +87,13 @@
    :view 'week
    :contents-sources
    (list
-    (cfw:org-create-source "Green")  ; org-agenda source
-    ;; (cfw:howm-create-source "Blue")  ; howm source
-    ;; (cfw:cal-create-source "Orange") ; diary source
-    ;; (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
-    (cfw:ical-create-source "Google" "https://calendar.google.com/calendar/ical/philipgottschall%40gmail.com/private-6b187769822ce95ab9917f54489fd384/basic.ics" "Blue") ; google calendar ICS
-   )))
-
+    (cfw:org-create-file-source "Personal" "~/Dropbox/org/agenda/Personal.org" "Blue")  ; org-agenda source
+    (cfw:org-create-file-source "Work" "~/Dropbox/org/agenda/Personal.org" "Orange")  ; org-agenda source
+    (cfw:org-create-file-source "Anika" "~/Dropbox/org/agenda/Anika.org" "Gray"))))  ; org-agenda source
 
 (use-package! calfw
   :config
   (setq calendar-week-start-day 1))
-
 
 (use-package! auth-source
   :init
@@ -134,23 +103,44 @@
 
 (use-package! auth-source-pass
   :init
+  (setq auth-sources nil)
   (auth-source-pass-enable))
 
 
-(use-package! org-gcal
-  :after org
-  :config
-  (setq org-gcal-client-id (auth-source-pass-get "client_id" "org-gcal")
-        org-gcal-client-secret (auth-source-pass-get "client_secret" "org-gcal")
-        org-gcal-file-alist '(("philipgottschall@gmail.com" . "~/Dropbox/org/agenda/Google.org")))
+(use-package! org-caldav
+  :init
+  (setq org-caldav-delete-org-entries 'always
+        org-caldav-delete-calendar-entries 'always
+        org-caldav-sync-changes-to-org 'all
+        org-caldav-show-sync-results nil
+        org-caldav-backup-file "~/Dropbox/org/agenda/org-caldav-backup.org"
+        org-icalendar-timezone "Europe/Berlin"
+        org-caldav-save-directory "~/Dropbox/org/agenda/"
+        org-caldav-calendars
+               '((:url "https://nextcloud05.webo.cloud/remote.php/dav/calendars/philipgottschall@gmail.com"
+                  :calendar-id "personal-1"
+                  :files nil
+                  :inbox "~/Dropbox/org/agenda/Personal.org")
+                 (:url "https://nextcloud05.webo.cloud/remote.php/dav/calendars/philipgottschall@gmail.com"
+                  :calendar-id "work"
+                  :files nil
+                  :inbox "~/Dropbox/org/agenda/Work.org")))
+                 ;; (:url "https://moseskonto.tu-berlin.de/moses/cal/export/44d6e415b887f4b58c76f0f01e3b54a9"
+                 ;;  :calendar-id nil
+                 ;;  :files nil
+                 ;;  :inbox "~/Dropbox/org/agenda/Uni.org")))
 
-  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
-  (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync))))
+  (add-hook 'org-agenda-mode-hook (lambda () (org-caldav-sync)))
+  (add-hook 'org-capture-after-finalize-hook (lambda () (org-caldav-sync))))
+
+
+(use-package! plstore
+  :config
+  (setq plstore-cache-passphrase-for-symmetric-encryption t))
 
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (use-package! mu4e
-  ;; :ensure nil
   :config
   (setq mu4e-get-mail-command "mbsync -c ~/.config/mu4e/mbsyncrc -a"
         mu4e-change-filenames-when-moving t
@@ -165,7 +155,7 @@
 
   (setq mu4e-contexts
         (list
-          ;; Uni Potsdam
+          ;; DEPRECATED Uni Potsdam
           (make-mu4e-context
           :name "UP"
           :match-func
@@ -252,12 +242,7 @@
   :hook (org-mode . efs/org-mode-setup)
   :config
 
-  ;; HACK Initialize indent-mode so that face attribute can be set in font-setup
-  ;; (org-indent-mode -1)
-
   (setq org-ellipsis " ▾")
-  ;; (setq org-startup-indented 1)
-  ;; (setq org-startup-folded 1) ;TODO ?
 
   ;; agenda
   (setq org-agenda-start-with-log-mode t)
@@ -266,12 +251,14 @@
 
   (setq org-agenda-files
         '("~/Dropbox/org/agenda/Tasks.org"
-          "~/Dropbox/org/agenda/Google.org"
+          "~/Dropbox/org/agenda/Personal.org"
+          "~/Dropbox/org/agenda/Work.org"
+          "~/Dropbox/org/agenda/Uni.org"
           "~/Dropbox/org/agenda/Projects.org"
           "~/Dropbox/org/agenda/Birthday.org"))
 
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "WIP(w)" "|" "DONE(d!)")
+        '((sequence "TODO(t)" "NEXT(n)" "WIP(w)" "|" "DONE(d!)" "CANCEL(q)")
           (sequence "IDEA(i)" "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "HOLD(h)" "|" "COMPLETED(c)" "CANCELED(k@)" "BACKLOOP(l)")))
 
   (setq org-todo-keyword-faces
@@ -280,6 +267,7 @@
   (setq org-refile-targets
         '(("Archive.org" :maxlevel . 1)
           ("Tasks.org" :maxlevel . 1)))
+
 
   ;; Save Org buffers after refiling
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
@@ -323,7 +311,7 @@
        (org-agenda-max-todos 20)
        (org-agenda-files org-agenda-files)))
 
-    ("w" "Workflow Status"
+    ("p" "Project Status"
       ((todo "IDEA"
              ((org-agenda-overriding-header "Ideas in Mind")
               (org-agenda-files org-agenda-files)))
@@ -357,40 +345,20 @@
       ("tt" "Todo" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
            "* TODO %? %^{Task} \t %^G\n  %u\n  %i" :empty-lines 1)
       ("tn" "Next" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
-           "* NEXT  %?  %^{Task}  %^G\n  %u\n  %i" :empty-lines 1)
+           "* NEXT %?  %^{Task}  %^G\n  %u\n  %i" :empty-lines 1)
       ("tw" "Work in Progress" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
-           "* WIP  %?  %^{Task}  %^G\n  %u\n  %i" :empty-lines 1)
+           "* WIP %? %^{Task} %^G\n %u\n SCHEDULED: %t %i" :empty-lines 1)
 
       ("p" "Projects")
-      ("pn" "Idea" entry (file+olp "~/Dropbox/org/agenda/Projects.org" "Open")
+      ("pn" "Idea" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
            "* IDEA %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
       ("a" "Appointment")
-      ("aa" "General" entry (file "~/Dropbox/org/agenda/Google.org")
-           "* %?\n" :empty-lines 1)))
+      ("ap" "Personal" entry (file "~/Dropbox/org/agenda/Personal.org")
+       "* %? %^{Event}\n %^T %i" :empty-lines 1)
+      ("aw" "Work" entry (file "~/Dropbox/org/agenda/Work.org")
+       "* %? %^{Event}\n %^T %i" :empty-lines 1))))
 
-)
-
-;; ("j" "Journal Entries")
-;; ("jj" "Journal" entry
-;;      (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
-;;      "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
-;;      ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
-;;      :clock-in :clock-resume
-;;      :empty-lines 1)
-;; ("jm" "Meeting" entry
-;;      (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
-;;      "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
-;;      :clock-in :clock-resume
-;;      :empty-lines 1)
-
-;; ("w" "Workflows")
-;; ("we" "Checking Email" entry (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
-;;      "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
-
-;; ("m" "Metrics Capture")
-;; ("mw" "Weight" table-line (file+headline "~/Projects/Code/emacs-from-scratch/OrgFiles/Metrics.org" "Weight")
-;;  "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
 
 (use-package! org-roam
   :config
@@ -418,11 +386,12 @@
                                           (?- . "•")))
   (efs/org-font-setup))
 
+
 (use-package! org-fancy-priorities
   :hook (org-mode . org-fancy-priorities-mode)
   :config
-  (setq org-fancy-priorities-list '("Ⅰ" "Ⅱ" "Ⅲ" "Ⅳ")))
-  ;; (setq org-fancy-priorities-list '("●" "◕" "◑" "◔")))
+  (setq org-fancy-priorities-list '("1" "2" "3" "4")))
+
 
 (defun efs/org-mode-visual-fill ()
   (setq visual-fill-column-width 100

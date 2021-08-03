@@ -11,10 +11,12 @@
 
 (package! org-bullets)
 (package! org-ref)
+(package! org-caldav)
 (package! org-super-agenda)
 (package! org-roam-bibtex)
 
 (package! visual-fill-column)
+(package! oauth2)
 
 
 ;; To install a package directly from a remote git repo, you must specify a
