@@ -139,8 +139,9 @@
   (setq plstore-cache-passphrase-for-symmetric-encryption t))
 
 
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (use-package! mu4e
+  :if (file-exists-p "~/.config/mu4e/mbsyncrc")
+  :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
   (setq mu4e-get-mail-command "mbsync -c ~/.config/mu4e/mbsyncrc -a"
         mu4e-change-filenames-when-moving t
