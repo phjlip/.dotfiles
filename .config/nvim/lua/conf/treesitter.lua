@@ -20,6 +20,10 @@ require'nvim-treesitter.configs'.setup {
       node_decremental = "grm",
     },
   },
+  rainbow = {
+    enable = true,
+    disable = {'bash'}              -- please disable bash until I figure #1 out
+  }
 --  playground = {
 --    enable = true,
 --    disable = {},
@@ -31,8 +35,4 @@ require'nvim-treesitter.configs'.setup {
 --    use_virtual_text = true,
 --    lint_events = {"BufWrite", "CursorHold"},
 --  },
---  rainbow = {
---    enable = true,
---    disable = {'bash'}              -- please disable bash until I figure #1 out
---  }
 }

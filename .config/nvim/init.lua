@@ -19,6 +19,7 @@ vim.bo.smartindent      = true  	-- Special Indentation?
 
 vim.bo.tabstop          = 4     	-- show existing tab with 4 spaces width
 vim.bo.shiftwidth       = 4     	-- when indenting with '>', use 4 spaces width
+vim.bo.softtabstop      = -1     	-- 4 is default with treesitter
 vim.bo.expandtab        = true  	-- On pressing tab, insert 4 spaces
 
 vim.wo.relativenumber   = true  	-- relative linenumbers
@@ -40,6 +41,23 @@ vim.o.showmode          = false 	-- Don't show mode in cmd line
 
 -- vim.cmd("filetype plugin indent on") -- For Filetypes load specific plugins and indent rules
 
+--Remap for dealing with word wrap
+vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
+vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
+
+-- Highlight on yank
+vim.api.nvim_exec(
+  [[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  augroup end
+]],
+  false
+)
+
+-- Y yank until the end of line  (note: this is now a default on master)
+vim.api.nvim_set_keymap('n', 'Y', 'y$', { noremap = true })
 
 --============
 --| Plugins  |
@@ -65,6 +83,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'b3nj5m1n/kommentary'
     Plug 'jiangmiao/auto-pairs'
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+    Plug 'lukas-reineke/indent-blankline.nvim'
 call plug#end()
 ]],
 true)
@@ -83,6 +102,7 @@ require('conf.galaxyline.eviline')
 require('conf.barbar')
 require('conf.lsp')
 require('conf.completion')
+require('conf.indent')
 
 -- Language specific folding (ToDo Should be off when starting a file)
 -- set foldmethod=expr

@@ -14,8 +14,8 @@ vim.api.nvim_set_keymap("n", "<leader>fh", "<cmd>lua require('telescope.builtin'
 --   Keymappings  --
 --================--
 
-require('telescope').setup{
-  defaults = {
+require('telescope').setup{}
+  --[[ defaults = {
     vimgrep_arguments = {
       'rg',
       '--color=never',
@@ -26,7 +26,7 @@ require('telescope').setup{
       '--hidden',
       '--smart-case'
     },
-    prompt_position = "bottom",
+    -- prompt_position = "bottom",
     prompt_prefix = ">",
     initial_mode = "insert",
     selection_strategy = "reset",
@@ -38,12 +38,12 @@ require('telescope').setup{
     file_sorter =  require'telescope.sorters'.get_fuzzy_file,
     file_ignore_patterns = {},
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-    shorten_path = true,
+    -- shorten_path = true,
     winblend = 0,
-    width = 0.75,
-    preview_cutoff = 120,
-    results_height = 1,
-    results_width = 0.8,
+    -- width = 0.75,
+    -- preview_cutoff = 120,
+    -- results_height = 1,
+    -- results_width = 0.8,
     border = {},
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
     color_devicons = true,
@@ -56,4 +56,4 @@ require('telescope').setup{
     -- Developer configurations: Not meant for general override
     buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
   }
-}
+} ]]

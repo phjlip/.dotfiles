@@ -19,7 +19,7 @@ vim.o.shortmess = string.format("%s%s" ,vim.o.shortmess, "c")
 
 vim.g.chain_complete_list = {
   default = {
-    {complete_items = {'lsp', 'ts'}},
+    {complete_items = {'lsp', 'ts', 'snippet'}},
   },
 }
 
