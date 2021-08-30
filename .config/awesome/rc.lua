@@ -107,8 +107,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -204,6 +202,19 @@ awful.screen.connect_for_each_screen(function(s)
     local cpu_widget = require("widgets.cpu")
     local ram_widget = require("widgets.ram")
     local volume_widget = require("widgets.volume")
+    local calendar_widget = require("widgets.calendar")
+
+    -- Create a textclock widget
+    mytextclock = wibox.widget.textclock()
+    local cw = calendar_widget({
+        theme = 'onehalf',
+        placement = 'top_right',
+    })
+    mytextclock:connect_signal("button::press",
+        function(_, _, _, button)
+            if button == 1 then cw.toggle() end
+        end)
+
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
