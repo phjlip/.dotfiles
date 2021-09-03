@@ -5,6 +5,7 @@
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
+local gears = require("gears")
 
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
@@ -35,6 +36,7 @@ theme.border_marked = "#91231c"
 -- overriding the default one when
 -- defined, the sets are:
 -- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
+theme.taglist_font = "Noto Sans 15"
 -- tasklist_[bg|fg]_[focus|urgent]
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
@@ -119,13 +121,16 @@ theme.layout_cornersw = themes_path.."default/layouts/cornersww.png"
 theme.layout_cornerse = themes_path.."default/layouts/cornersew.png"
 
 -- Generate Awesome icon:
-theme.awesome_icon = theme_assets.awesome_icon(
+--[[ theme.awesome_icon = theme_assets.awesome_icon(
     theme.menu_height, theme.bg_focus, theme.fg_focus
-)
+) ]]
+
+-- theme.awesome_icon = "/usr/share/icons/Papirus/64x64/apps/distributor-logo-archlinux.svg"
+theme.awesome_icon = gears.color.recolor_image("/usr/share/icons/Papirus/symbolic/actions/view-list-bullet-symbolic.svg", theme.fg_focus)
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = "/usr/share/icons/Papirus-Dark"
+theme.icon_theme = "/usr/share/icons/Papirus/"
 
 return theme
 

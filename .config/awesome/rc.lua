@@ -14,6 +14,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local dpi = require('beautiful').xresources.apply_dpi
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -168,8 +169,18 @@ awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
 
+    local tag1 = wibox.widget {
+        markup = "<span foreground='#ffffff' font='Cantarell 15'>ᚠ</span>",
+        align = "center",
+        valign = "center",
+        widget = wibox.widget.textbox
+    }
+    
     -- Each screen has its own tag table.
-    awful.tag({ "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   " }, s, awful.layout.layouts[1])
+    -- awful.tag({ "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   " }, s, awful.layout.layouts[1])
+    awful.tag({ "ᚠ", "ᛟ", "ᛏ", "ᛗ", "ᚫ", "ᛒ", "ᛝ", "ᛉ" }, s, awful.layout.layouts[1])
+    -- awful.tag({ "ᛟ", "ᛏ", "ᛗ", "ᚫ", "ᛒ", "ᛝ", "ᛉ" }, s, awful.layout.layouts[1])
+
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -185,7 +196,24 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytaglist = awful.widget.taglist {
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
-        buttons = taglist_buttons
+        buttons = taglist_buttons,
+        --[[ widget_template = {
+            {
+                {
+                    -- we need this to display text
+                    {
+                        markup = 'text_role',
+                        widget = wibox.widget.textbox,
+                    },
+                    widget = wibox.container.place,
+                    layout = wibox.layout.fixed.horizontal,
+                },
+                widget = wibox.container.place,
+                forced_width = tag_width,
+            },
+            id = 'background_role',
+            widget = wibox.container.background,
+        }, ]]
     }
 
     -- Create a tasklist widget
@@ -195,7 +223,7 @@ awful.screen.connect_for_each_screen(function(s)
         buttons = tasklist_buttons,
         style    = {
             shape_border_width = 1,
-            shape_border_color = '#777777',
+            shape_border_color = '#050505',
             shape  = gears.shape.rounded_bar,
         },
         layout   = {
@@ -261,6 +289,45 @@ awful.screen.connect_for_each_screen(function(s)
             if button == 1 then cw.toggle() end
         end)
 
+    -- Systray Widget
+    local mysystray = wibox.widget.systray()
+    --[[ local systray_container = {
+        mysystray,
+        left = 8,
+        right = 8,
+        widget = wibox.container.margin
+    }
+    local systray_widget = wibox.widget {
+        {
+            systray_container,
+            top = 8,
+            left = 3,
+            right = 3,
+            layout = wibox.container.margin
+        },
+        bg = beautiful.bg_normal,
+        widget = wibox.container.background
+    } ]]
+    local systray_widget = wibox.widget {
+        widget = wibox.container.margin,
+        top = dpi(8), 
+        bottom = dpi(8),
+        left = dpi(6),
+        right = dpi(6),
+        {
+            wibox.widget {
+                widget = wibox.container.margin,
+                top = dpi(1), 
+                bottom = dpi(1), 
+                {
+                    systray, 
+                    layout = wibox.layout.fixed.horizontal, 
+                }
+            },
+            layout = wibox.layout.fixed.horizontal
+        }
+    },
+
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -273,8 +340,8 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(),
             mykeyboardlayout,
+            systray_widget,
             volume_widget{
                 widget_type = 'arc'
             },
