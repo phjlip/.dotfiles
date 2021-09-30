@@ -15,7 +15,8 @@ function widget.get_widget(widgets_args)
     local width = args.width or 50
     local margins = args.margins or 10
     local shape = args.shape or 'bar'
-    local with_icon = args.with_icon == true and true or false
+    -- local with_icon = args.with_icon == true and true or false
+    local with_icon = true
 
     local bar = wibox.widget {
         {

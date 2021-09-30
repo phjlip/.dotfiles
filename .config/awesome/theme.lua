@@ -14,21 +14,41 @@ local theme = {}
 
 theme.font          = "Iosevka Aile 9"
 
-theme.bg_normal     = "#21242b"
-theme.bg_focus      = "#3e4452"
-theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#444444"
+local xrdb          = xresources.get_current_theme()
+
+theme.black         = xrdb["color0"]
+theme.red           = xrdb["color1"]
+theme.green         = xrdb["color2"]
+theme.yellow        = xrdb["color3"]
+theme.blue          = xrdb["color4"]
+theme.magenta       = xrdb["color5"]
+theme.cyan          = xrdb["color6"]
+theme.white         = xrdb["color7"]
+
+theme.gray          = xrdb["color8"]
+theme.alt_red       = xrdb["color9"]
+theme.turqoise      = xrdb["color10"]
+theme.orange        = xrdb["color11"]
+theme.alt_blue      = xrdb["color12"]
+theme.purple        = xrdb["color13"]
+theme.azur          = xrdb["color14"]
+theme.offwhite      = xrdb["color15"]
+
+theme.bg_normal     = xrdb["background"]
+theme.bg_focus      = theme.gray
+theme.bg_urgent     = theme.red
+theme.bg_minimize   = theme.gray
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal     = xrdb["foreground"]
+theme.fg_focus      = theme.white
+theme.fg_urgent     = theme.white
+theme.fg_minimize   = theme.white
 
 theme.useless_gap   = dpi(5)
 theme.border_width  = dpi(1)
 theme.border_normal = "#000000"
-theme.border_focus  = "#535d6c"
+theme.border_focus  = theme.gray
 theme.border_marked = "#91231c"
 
 
@@ -36,7 +56,6 @@ theme.border_marked = "#91231c"
 -- overriding the default one when
 -- defined, the sets are:
 -- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
-theme.taglist_font = "Noto Sans 15"
 -- tasklist_[bg|fg]_[focus|urgent]
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
@@ -46,15 +65,36 @@ theme.taglist_font = "Noto Sans 15"
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
 
--- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
-)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.fg_normal
-)
+theme.wibar_height = dpi(27)
 
+-- TAGLIST
+theme.taglist_font = "Noto Sans 13"
+
+theme.taglist_fg_focus      = theme.blue
+theme.taglist_fg_urgent     = theme.blue
+theme.taglist_fg_occupied   = theme.blue
+theme.taglist_fg_empty      = theme.blue
+theme.taglist_fg_volatile   = theme.blue
+
+theme.taglist_bg_focus      = theme.yellow
+theme.taglist_bg_urgent     = theme.red
+theme.taglist_bg_occupied   = theme.white
+theme.taglist_bg_empty      = theme.background
+theme.taglist_bg_volatile   = theme.yellow
+
+local tag_uline_size = dpi(3) 
+
+theme.taglist_shape = gears.shape.rectangle
+theme.taglist_squares_sel = gears.surface.load_from_shape(dpi(50),theme.wibar_height-tag_uline_size,gears.shape.rectangle,theme.bg_normal)
+theme.taglist_squares_unsel = gears.surface.load_from_shape(dpi(50),theme.wibar_height-tag_uline_size,gears.shape.rectangle,theme.bg_normal)
+
+--TASKLIST
+theme.tasklist_fg_focus = theme.white
+theme.tasklist_fg_urgent = theme.white
+theme.tasklist_bg_focus = theme.purple
+theme.tasklist_bg_urgent = theme.red
+
+-- NOTIFICATIONS
 -- Variables set for theming notifications:
 -- notification_font
 -- notification_[bg|fg]
@@ -126,7 +166,9 @@ theme.layout_cornerse = themes_path.."default/layouts/cornersew.png"
 ) ]]
 
 -- theme.awesome_icon = "/usr/share/icons/Papirus/64x64/apps/distributor-logo-archlinux.svg"
-theme.awesome_icon = gears.color.recolor_image("/usr/share/icons/Papirus/symbolic/actions/view-list-bullet-symbolic.svg", theme.fg_focus)
+-- theme.awesome_icon = gears.color.recolor_image("/usr/share/icons/ePapirus-Dark/symbolic/actions/view-list-bullet-symbolic.svg", theme.fg_focus)
+-- theme.awesome_icon = gears.color.recolor_image("/usr/share/icons/ePapirus-Dark/symbolic/actions/view-app-grid-symbolic.svg", theme.fg_focus)
+theme.awesome_icon = gears.color.recolor_image("/usr/share/icons/ePapirus-Dark/symbolic/actions/view-more-symbolic.svg", theme.fg_focus)
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
