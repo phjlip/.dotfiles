@@ -9,10 +9,12 @@
 -------------------------------------------------
 
 local awful = require("awful")
+local gears = require("gears")
 local naughty = require("naughty")
 local watch = require("awful.widget.watch")
 local wibox = require("wibox")
 local gfs = require("gears.filesystem")
+local beautiful = require("beautiful")
 local dpi = require('beautiful').xresources.apply_dpi
 
 -- acpi sample outputs
@@ -26,7 +28,7 @@ local battery_widget = {}
 local function worker(user_args)
     local args = user_args or {}
 
-    local font = args.font or 'Play 8'
+    local font = args.font or 'Iosevka Aile 10'
     -- local path_to_icons = args.path_to_icons or "/usr/share/icons/Arc/status/symbolic/"
     local path_to_icons = args.path_to_icons or "/usr/share/icons/Papirus/symbolic/status/"
     local show_current_level = args.show_current_level or true
@@ -178,6 +180,7 @@ local function worker(user_args)
         end
 
         widget.icon:set_image(path_to_icons .. batteryType .. ".svg")
+        -- widget.icon:set_image(gears.color.recolor_image(path_to_icons .. batteryType .. ".svg"),beautiful.fg_normal)
         -- widget.icon:set_image(path_to_icons .. "battery-caution" .. ".svg")
 
         if show_current_level and status ~= 'Unknown' then
