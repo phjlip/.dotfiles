@@ -136,14 +136,14 @@ configuration {
 /*	me-select-entry: "MousePrimary";*/
 /*	me-accept-entry: "MouseDPrimary";*/
 /*	me-accept-custom: "Control+MouseDPrimary";*/
-  timeout {
+  /* timeout {
       action: "kb-cancel";
       delay:  0;
-  }
-  filebrowser {
+  } */
+  /* filebrowser {
       directories-first: true;
       sorting-method:    "name";
-  }
+  } */
 }
 
 @theme "onehalfdark"
