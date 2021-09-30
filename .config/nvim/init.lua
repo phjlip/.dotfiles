@@ -18,7 +18,7 @@ vim.bo.cindent          = true   	-- Indentation for C
 vim.bo.smartindent      = true  	-- Special Indentation?
 
 vim.bo.tabstop          = 4     	-- show existing tab with 4 spaces width
-vim.bo.shiftwidth       = 4     	-- when indenting with '>', use 4 spaces width
+vim.bo.shiftwidth       = 0     	-- when indenting with '>', use 4 spaces width
 vim.bo.softtabstop      = -1     	-- 4 is default with treesitter
 vim.bo.expandtab        = true  	-- On pressing tab, insert 4 spaces
 
