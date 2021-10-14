@@ -17,9 +17,8 @@ local ICON_DIR = '/usr/share/icons/Papirus/symbolic/actions/'
 
 local logout_menu_widget = wibox.widget {
     {
-        image = ICON_DIR .. 'system-shutdown-symbolic.svg',
-        resize = true,
-        widget = wibox.widget.imagebox,
+        markup = "<span color=\""..beautiful.red.."\" font=\""..beautiful.widget_icon_size.."\"> </span>",
+        widget = wibox.widget.textbox,
     },
     margins = 4,
     layout = wibox.container.margin
