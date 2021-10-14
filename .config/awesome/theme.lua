@@ -1,6 +1,3 @@
----------------------------
--- Default awesome theme --
----------------------------
 
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
@@ -51,23 +48,85 @@ theme.border_normal = "#000000"
 theme.border_focus  = theme.gray
 theme.border_marked = "#91231c"
 
+-- WIDGETS
+-------------------------------------------------------------------------------
+theme.widget_uline_size = dpi(2)
+theme.widget_icon_size  = 12.5
 
--- There are other variable sets
--- overriding the default one when
--- defined, the sets are:
--- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
--- tasklist_[bg|fg]_[focus|urgent]
--- titlebar_[bg|fg]_[normal|focus]
--- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
--- mouse_finder_[color|timeout|animate_timeout|radius|factor]
--- prompt_[fg|bg|fg_cursor|bg_cursor|font]
--- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
--- Example:
---theme.taglist_bg_focus = "#ff0000"
+theme.uline_key     = theme.purple
+theme.uline_weather = theme.cyan
+theme.uline_volume  = theme.magenta
+theme.uline_net     = theme.yellow
+theme.uline_cpu     = theme.green
+theme.uline_memory  = theme.turqoise
+theme.uline_thermal = theme.red
+theme.uline_bat     = theme.cyan
+theme.uline_date    = theme.purple
+
+theme.icon_volume   = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_net      = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_cpu      = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_memory   = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_thermal  = "<span font=\""..theme.widget_icon_size.."\"></span>"
+theme.icon_date     = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+
+theme.icon_bat_unknown   = "<span font=\""..theme.widget_icon_size.."\"></span>"
+theme.icon_bat_full      = "<span font=\""..theme.widget_icon_size.."\"></span>"
+theme.icon_bat_ac1       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_bat_ac2       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_bat_ac3       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_bat_ac4       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_bat_ac5       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_bat_dc1       = "<span font=\""..theme.widget_icon_size.."\"></span>"
+theme.icon_bat_dc2       = "<span font=\""..theme.widget_icon_size.."\"></span>"
+theme.icon_bat_dc3       = "<span font=\""..theme.widget_icon_size.."\"></span>"
+theme.icon_bat_dc4       = "<span font=\""..theme.widget_icon_size.."\"></span>"
+theme.icon_bat_dc5       = "<span font=\""..theme.widget_icon_size.."\"></span>"
+
+theme.icon_bat_color = { [theme.icon_bat_unknown] = theme.red,
+                         [theme.icon_bat_full]    = theme.green,
+                         [theme.icon_bat_ac1]     = theme.red,
+                         [theme.icon_bat_ac2]     = theme.yellow,
+                         [theme.icon_bat_ac3]     = theme.yellow,
+                         [theme.icon_bat_ac4]     = theme.green,
+                         [theme.icon_bat_ac5]     = theme.green,
+                         [theme.icon_bat_dc1]     = theme.red,
+                         [theme.icon_bat_dc2]     = theme.yellow,
+                         [theme.icon_bat_dc3]     = theme.yellow,
+                         [theme.icon_bat_dc4]     = theme.green,
+                         [theme.icon_bat_dc5]     = theme.green }
+
+theme.icon_volume0   = "<span font=\""..tostring(theme.widget_icon_size + 7).."\">婢</span>"
+theme.icon_volume1   = "<span font=\""..theme.widget_icon_size.."\">奄</span>"
+theme.icon_volume2   = "<span font=\""..tostring(theme.widget_icon_size + 4).."\">奔</span>"
+theme.icon_volume3   = "<span font=\""..tostring(theme.widget_icon_size + 7).."\">墳</span>"
+
+--[[ theme.icon_volume_"<span font=\""..theme.widget_icon_size.."\">color = { [theme.icon_volume0]    = theme.red,
+                            [theme.icon_volumel]    = theme.green,
+                            [theme.icon_volume2]    = theme.red,
+                            [theme.icon_volume3]    = theme.green } ]]
+
+theme.icon_weather_thunder  = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_drizzle  = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_rain     = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_snow     = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_atmo     = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_clear    = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_clouds   = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_clouds_few       = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_clouds_scattered = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_clouds_broken    = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_clouds_overcast  = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_rain_snow        = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+theme.icon_weather_rain_heavy       = "<span font=\""..theme.widget_icon_size.."\">  </span>"
+
 
 theme.wibar_height = dpi(27)
 
 -- TAGLIST
+-------------------------------------------------------------------------------
+-- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
+
 theme.taglist_font = "Noto Sans 13"
 
 theme.taglist_fg_focus      = theme.blue
@@ -82,19 +141,23 @@ theme.taglist_bg_occupied   = theme.white
 theme.taglist_bg_empty      = theme.background
 theme.taglist_bg_volatile   = theme.yellow
 
-local tag_uline_size = dpi(3) 
+theme.tag_uline_size = dpi(2) 
 
 theme.taglist_shape = gears.shape.rectangle
-theme.taglist_squares_sel = gears.surface.load_from_shape(dpi(50),theme.wibar_height-tag_uline_size,gears.shape.rectangle,theme.bg_normal)
-theme.taglist_squares_unsel = gears.surface.load_from_shape(dpi(50),theme.wibar_height-tag_uline_size,gears.shape.rectangle,theme.bg_normal)
+theme.taglist_squares_sel = gears.surface.load_from_shape(dpi(50),theme.wibar_height-theme.tag_uline_size,gears.shape.rectangle,theme.bg_normal)
+theme.taglist_squares_unsel = gears.surface.load_from_shape(dpi(50),theme.wibar_height-theme.tag_uline_size,gears.shape.rectangle,theme.bg_normal)
 
 --TASKLIST
+-------------------------------------------------------------------------------
+-- tasklist_[bg|fg]_[focus|urgent]
+
 theme.tasklist_fg_focus = theme.white
 theme.tasklist_fg_urgent = theme.white
 theme.tasklist_bg_focus = theme.purple
 theme.tasklist_bg_urgent = theme.red
 
 -- NOTIFICATIONS
+-------------------------------------------------------------------------------
 -- Variables set for theming notifications:
 -- notification_font
 -- notification_[bg|fg]
@@ -113,7 +176,10 @@ theme.menu_width  = dpi(100)
 -- beautiful.variable in your rc.lua
 --theme.bg_widget = "#cc0000"
 
--- Define the image to load
+-- TITLEBAR
+-------------------------------------------------------------------------------
+-- titlebar_[bg|fg]_[normal|focus]
+
 theme.titlebar_close_button_normal = themes_path.."default/titlebar/close_normal.png"
 theme.titlebar_close_button_focus  = themes_path.."default/titlebar/close_focus.png"
 
@@ -160,6 +226,11 @@ theme.layout_cornerne = themes_path.."default/layouts/cornernew.png"
 theme.layout_cornersw = themes_path.."default/layouts/cornersww.png"
 theme.layout_cornerse = themes_path.."default/layouts/cornersew.png"
 
+-- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
+-- mouse_finder_[color|timeout|animate_timeout|radius|factor]
+-- prompt_[fg|bg|fg_cursor|bg_cursor|font]
+-- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
+
 -- Generate Awesome icon:
 --[[ theme.awesome_icon = theme_assets.awesome_icon(
     theme.menu_height, theme.bg_focus, theme.fg_focus
@@ -175,5 +246,3 @@ theme.awesome_icon = gears.color.recolor_image("/usr/share/icons/ePapirus-Dark/s
 theme.icon_theme = "/usr/share/icons/Papirus/"
 
 return theme
-
--- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

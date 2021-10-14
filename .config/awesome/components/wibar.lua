@@ -2,18 +2,18 @@
 ------------------------------ Wibar ------------------------------
 -------------------------------------------------------------------
 
-local gears = require("gears")
-local awful = require("awful")
-local wibox = require("wibox")
+local gears     = require("gears")
+local awful     = require("awful")
+local wibox     = require("wibox")
 local beautiful = require("beautiful")
-local naughty = require("naughty")
-local menubar = require("menubar")
-local dpi = require('beautiful').xresources.apply_dpi
+local naughty   = require("naughty")
+local menubar   = require("menubar")
+local vicious   = require("vicious")
+local dpi       = require('beautiful').xresources.apply_dpi
+local widgets   = require("components.widgets")
 
+-- Use another non-awesome statusbar
 local hide_wibar = false
-
--- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- Widgets
 local battery_widget = require("widgets.battery")
@@ -22,24 +22,16 @@ local cpu_widget = require("widgets.cpu")
 local ram_widget = require("widgets.ram")
 local volume_widget = require("widgets.volume")
 local calendar_widget = require("widgets.calendar")
-local sep_widget = wibox.widget{
-        markup = "  ",
-        widget = wibox.widget.textbox,
-}
-
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
 local cw = calendar_widget({
     theme = 'onehalf',
     placement = 'top_right',
 })
 
-mytextclock:connect_signal("button::press",
-
-function(_, _, _, button)
-    if button == 1 then cw.toggle() end
-end)
+widgets.date:connect_signal("button::press",
+    function(_, _, _, button)
+        if button == 1 then cw.toggle() end
+    end)
 
 -- Systray Widget
 local mysystray = wibox.widget.systray()
@@ -89,18 +81,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     awful.tag({ " ᚠ ", " ᛟ ", " ᛏ ", " ᛗ ", " ᚫ ", " ᛒ ", " ᛝ ", " ᛉ " }, s, awful.layout.layouts[1])
 
-    -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
-    -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
-    s.mylayoutbox = awful.widget.layoutbox(s)
-    s.mylayoutbox:buttons(gears.table.join(
-                           awful.button({ }, 1, function () awful.layout.inc( 1) end),
-                           awful.button({ }, 3, function () awful.layout.inc(-1) end),
-                           awful.button({ }, 4, function () awful.layout.inc( 1) end),
-                           awful.button({ }, 5, function () awful.layout.inc(-1) end)))
-
-    -- Create a taglist widget
+       -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
@@ -110,23 +91,6 @@ awful.screen.connect_for_each_screen(function(s)
             spacing = 5,
             shape = gears.shape.rectangle
         }
-        --[[ widget_template = {
-            {
-                {
-                    {
-                        id     = 'text_role',
-                        widget = wibox.widget.textbox,
-                    },
-                    left = 10,
-                    right = 10,
-                    widget = wibox.container.margin,
-                },
-                layout = wibox.layout.fixed.horizontal,
-            },
-            left  = 3,
-            right = 3,
-            widget = wibox.container.margin
-        }, ]]
     }
 
     -- Create a tasklist widget
@@ -191,25 +155,27 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.align.horizontal,
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
-                sep_widget,
+                widgets.seperator,
                 -- mylauncher,
                 s.mytaglist,
-                s.mypromptbox,
             },
             s.mytasklist, -- Middle widget
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
-                mykeyboardlayout,
-                mysystray,
-                volume_widget{
-                    widget_type = 'horizontal_bar'
-                },
-                cpu_widget(),
-                ram_widget(),
-                battery_widget(),
-                mytextclock,
+                spacing = 10,
+		        widgets.systray,
+                widgets.keylayout,
+		        widgets.openweather,
+                widgets.volume,
+		        widgets.net,
+		        -- widgets.wifi,
+                widgets.cpu,
+                widgets.memory,
+		        widgets.thermal,
+                widgets.battery,
+                widgets.date,
                 logout_widget(),
-                sep_widget,
+                -- widgets.seperator,
             },
         }
 
