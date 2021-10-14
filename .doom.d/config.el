@@ -296,6 +296,7 @@
   (setq org-agenda-custom-commands
     '(("d" "Dashboard"
       ((agenda "" ((org-deadline-warning-days 7)))
+        (todo "WIP" ((org-agenda-overriding-header "Current Tasks")))
         (todo "NEXT" ((org-agenda-overriding-header "Next Tasks")))
         (tags-todo "+TODO=\"TODO\"+@work+LEVEL=2" ((org-agenda-overriding-header "Work")))
         (tags-todo "+TODO=\"TODO\"+@uni+LEVEL=2" ((org-agenda-overriding-header "Uni")))
