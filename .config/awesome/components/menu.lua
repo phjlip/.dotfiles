@@ -4,7 +4,6 @@
 
 local awful = require("awful")
 local beautiful = require("beautiful")
-local menubar = require("menubar")
 
 terminal = "kitty"
 editor = os.getenv("EDITOR") or "nano"
@@ -26,6 +25,3 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu,
 				     visible = false})
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
