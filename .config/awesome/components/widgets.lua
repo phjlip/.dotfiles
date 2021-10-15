@@ -35,7 +35,7 @@ local widget = {}
 
 date_widget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.date)
-vicious.register(date_widget, vicious.widgets.date, text_wrapper(beautiful.icon_date, beautiful.uline_date).."%R %a, %d.%b.%y")
+vicious.register(date_widget, vicious.widgets.date, text_wrapper(beautiful.icon_date, beautiful.uline_date).." %R %a, %d.%b.%y")
 widget.date = widget_wrapper(date_widget, beautiful.uline_date)
 
 -- RAM
@@ -45,7 +45,7 @@ memory_widget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.mem)
 vicious.register(memory_widget, vicious.widgets.mem,
 		function (widget, args)
-		return ("%s%d%% (%.1fGB/%.1fGB)"):format(text_wrapper(beautiful.icon_memory, beautiful.uline_memory),
+		return ("%s %d%% (%.1fGB/%.1fGB)"):format(text_wrapper(beautiful.icon_memory, beautiful.uline_memory),
                                                  args[1],
                                                  args[2]/1000,
                                                  args[3]/1000)
@@ -101,7 +101,7 @@ widget.battery = widget_wrapper(bat_widget, beautiful.uline_bat)
 
 cpu_widget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.cpu)
-vicious.register(cpu_widget, vicious.widgets.cpu, text_wrapper(beautiful.icon_cpu, beautiful.uline_cpu).."$1%", 3)
+vicious.register(cpu_widget, vicious.widgets.cpu, text_wrapper(beautiful.icon_cpu, beautiful.uline_cpu).." $1%", 3)
 widget.cpu = widget_wrapper(cpu_widget, beautiful.uline_cpu)
 
 -- Volume
@@ -145,7 +145,7 @@ vicious.cache(vicious.widgets.net)
 vicious.register(net_widget, vicious.widgets.net,
                     function (widget, args)
                         get_interface()
-                    return ("%s%s: %skb %skb"):format(text_wrapper(beautiful.icon_net, beautiful.uline_net),
+                    return ("%s %s: %skb %skb"):format(text_wrapper(beautiful.icon_net, beautiful.uline_net),
                                                         interface,
                                                         args["{"..interface.." down_kb}"],
                                                         args["{"..interface.." up_kb}"])
@@ -207,7 +207,7 @@ vicious.register(openweather_widget, vicious.contrib.openweather,
                         symbols["Snow"] = beautiful.icon_weather_rain_snow
                         symbols["Rain"] = beautiful.icon_weather_rain_heavy
                     end
-                return ("%s  %s %s°C %s"):format(text_wrapper(symbols[args["{sky}"]], beautiful.uline_weather),args["{weather}"],args["{temp c}"],args["{city}"])
+                return ("%s %s°C %s"):format(text_wrapper(symbols[args["{sky}"]], beautiful.uline_weather),args["{temp c}"],args["{city}"])
                 end, 3, {city_id = "2950159", app_id = app_id})
 widget.openweather = widget_wrapper(openweather_widget, beautiful.uline_weather)
 

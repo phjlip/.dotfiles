@@ -50,8 +50,16 @@ theme.border_marked = "#91231c"
 
 -- WIDGETS
 -------------------------------------------------------------------------------
-theme.widget_uline_size = dpi(2)
-theme.widget_icon_size  = 12.5
+theme.widget_uline_size  = dpi(2)
+theme.widget_icon_size   = 12.5
+theme.widget_icon_font   = "Iosevka Nerd Font"
+theme.widget_icon_format = theme.widget_icon_font.." ".. theme.widget_icon_size
+
+local format_icon = function (icon, size_offset)
+                    local size_offset = size_offset or 0
+                    local format = theme.widget_icon_font.." ".. tostring(theme.widget_icon_size + size_offset)
+                    return "<span font_desc=\""..format.."\">"..icon.."</span>"
+                    end
 
 theme.uline_key     = theme.purple
 theme.uline_weather = theme.cyan
@@ -63,25 +71,25 @@ theme.uline_thermal = theme.red
 theme.uline_bat     = theme.cyan
 theme.uline_date    = theme.purple
 
-theme.icon_volume   = "<span font=\""..theme.widget_icon_size.."\"> </span>"
-theme.icon_net      = "<span font=\""..theme.widget_icon_size.."\"> </span>"
-theme.icon_cpu      = "<span font=\""..theme.widget_icon_size.."\"> </span>"
-theme.icon_memory   = "<span font=\""..theme.widget_icon_size.."\"> </span>"
-theme.icon_thermal  = "<span font=\""..theme.widget_icon_size.."\"></span>"
-theme.icon_date     = "<span font=\""..theme.widget_icon_size.."\"> </span>"
+theme.icon_volume   = format_icon(" ")
+theme.icon_net      = format_icon(" ")
+theme.icon_cpu      = format_icon(" ")
+theme.icon_memory   = format_icon(" ")
+theme.icon_thermal  = format_icon("")
+theme.icon_date     = format_icon(" ")
 
-theme.icon_bat_unknown   = "<span font=\""..theme.widget_icon_size.."\"></span>"
-theme.icon_bat_full      = "<span font=\""..theme.widget_icon_size.."\"></span>"
-theme.icon_bat_ac1       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
-theme.icon_bat_ac2       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
-theme.icon_bat_ac3       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
-theme.icon_bat_ac4       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
-theme.icon_bat_ac5       = "<span font=\""..theme.widget_icon_size.."\"> </span>"
-theme.icon_bat_dc1       = "<span font=\""..theme.widget_icon_size.."\"></span>"
-theme.icon_bat_dc2       = "<span font=\""..theme.widget_icon_size.."\"></span>"
-theme.icon_bat_dc3       = "<span font=\""..theme.widget_icon_size.."\"></span>"
-theme.icon_bat_dc4       = "<span font=\""..theme.widget_icon_size.."\"></span>"
-theme.icon_bat_dc5       = "<span font=\""..theme.widget_icon_size.."\"></span>"
+theme.icon_bat_unknown   = format_icon("")
+theme.icon_bat_full      = format_icon("")
+theme.icon_bat_ac1       = format_icon(" ")
+theme.icon_bat_ac2       = format_icon(" ")
+theme.icon_bat_ac3       = format_icon(" ")
+theme.icon_bat_ac4       = format_icon(" ")
+theme.icon_bat_ac5       = format_icon(" ")
+theme.icon_bat_dc1       = format_icon("")
+theme.icon_bat_dc2       = format_icon("")
+theme.icon_bat_dc3       = format_icon("")
+theme.icon_bat_dc4       = format_icon("")
+theme.icon_bat_dc5       = format_icon("")
 
 theme.icon_bat_color = { [theme.icon_bat_unknown] = theme.red,
                          [theme.icon_bat_full]    = theme.green,
@@ -96,30 +104,24 @@ theme.icon_bat_color = { [theme.icon_bat_unknown] = theme.red,
                          [theme.icon_bat_dc4]     = theme.green,
                          [theme.icon_bat_dc5]     = theme.green }
 
-theme.icon_volume0   = "<span font=\""..tostring(theme.widget_icon_size + 7).."\">婢</span>"
-theme.icon_volume1   = "<span font=\""..theme.widget_icon_size.."\">奄</span>"
-theme.icon_volume2   = "<span font=\""..tostring(theme.widget_icon_size + 4).."\">奔</span>"
-theme.icon_volume3   = "<span font=\""..tostring(theme.widget_icon_size + 7).."\">墳</span>"
+theme.icon_volume0   = format_icon("婢",4)
+theme.icon_volume1   = format_icon("奄",4)
+theme.icon_volume2   = format_icon("奔",4)
+theme.icon_volume3   = format_icon("墳",4)
 
---[[ theme.icon_volume_"<span font=\""..theme.widget_icon_size.."\">color = { [theme.icon_volume0]    = theme.red,
-                            [theme.icon_volumel]    = theme.green,
-                            [theme.icon_volume2]    = theme.red,
-                            [theme.icon_volume3]    = theme.green } ]]
-
-theme.icon_weather_thunder  = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_drizzle  = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_rain     = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_snow     = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_atmo     = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_clear    = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_clouds   = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_clouds_few       = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_clouds_scattered = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_clouds_broken    = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_clouds_overcast  = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_rain_snow        = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-theme.icon_weather_rain_heavy       = "<span font=\""..theme.widget_icon_size.."\">  </span>"
-
+theme.icon_weather_thunder  = format_icon(" ")
+theme.icon_weather_drizzle  = format_icon(" ")
+theme.icon_weather_rain     = format_icon(" ")
+theme.icon_weather_snow     = format_icon(" ")
+theme.icon_weather_atmo     = format_icon(" ")
+theme.icon_weather_clear    = format_icon(" ")
+theme.icon_weather_clouds   = format_icon(" ")
+theme.icon_weather_clouds_few       = format_icon("  ")
+theme.icon_weather_clouds_scattered = format_icon("  ")
+theme.icon_weather_clouds_broken    = format_icon("  ")
+theme.icon_weather_clouds_overcast  = format_icon("  ")
+theme.icon_weather_rain_snow        = format_icon("  ")
+theme.icon_weather_rain_heavy       = format_icon("  ")
 
 theme.wibar_height = dpi(27)
 
