@@ -228,6 +228,21 @@ theme.layout_cornerne = themes_path.."default/layouts/cornernew.png"
 theme.layout_cornersw = themes_path.."default/layouts/cornersww.png"
 theme.layout_cornerse = themes_path.."default/layouts/cornersew.png"
 
+-- mstab
+theme.mstab_bar_ontop = false          -- whether you want to allow the bar to be ontop of clients
+theme.mstab_dont_resize_slaves = false -- whether the tabbed stack windows should be smaller than the
+                                       -- currently focused stack window (set it to true if you use
+                                       -- transparent terminals. False if you use shadows on solid ones
+theme.mstab_bar_padding = "default"    -- how much padding there should be between clients and your tabbar
+                                       -- by default it will adjust based on your useless gaps.
+                                       -- If you want a custom value. Set it to the number of pixels (int)
+theme.mstab_border_radius = 0          -- border radius of the tabbar
+theme.mstab_bar_height = 40            -- height of the tabbar
+theme.mstab_tabbar_position = "top"    -- position of the tabbar (mstab currently does not support left,right)
+theme.mstab_tabbar_style = "default"   -- style of the tabbar ("default", "boxes" or "modern")
+                                       -- defaults to the tabbar_style so only change if you want a
+                                       -- different style for mstab and tabbed
+
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- mouse_finder_[color|timeout|animate_timeout|radius|factor]
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]

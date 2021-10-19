@@ -44,9 +44,14 @@ beautiful.init("/home/philip/.config/awesome/theme.lua")
 -- Layouts
 -------------------------------------------------------------------------------
 -- Table of layouts to cover with awful.layout.inc, order matters.
+local layouts = require("layouts")
 awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.floating,
+    layouts.mstab,
+    -- layouts.centered,
+    -- layouts.equalarea,
+
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.tile.top,
@@ -77,12 +82,12 @@ require("components.wibar")
 
 -- Keybindings
 -------------------------------------------------------------------------------
-require("components.keybindings")
+require("keybindings")
 
 
 -- Rules
 -------------------------------------------------------------------------------
-require("components.rules")
+require("rules")
 
 
 -- Titlebar
