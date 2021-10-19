@@ -6,14 +6,14 @@
   <property name="pressureMultiplier" value="1.00000000"/>
   <property name="zoomGesturesEnabled" value="true"/>
   <property name="selectedToolbar" value="Dracula"/>
-  <property name="lastSavePath" value="/home/philip/Dropbox/org/roam/kiwissen"/>
-  <property name="lastOpenPath" value="/home/philip/paper/Lamb2020"/>
+  <property name="lastSavePath" value="/home/philip/Dropbox/org/roam/cs"/>
+  <property name="lastOpenPath" value="/home/philip/paper/Riegel_ibm2020"/>
   <property name="lastImagePath" value=""/>
   <property name="zoomStep" value="10.00000000"/>
   <property name="zoomStepScroll" value="2.00000000"/>
   <property name="displayDpi" value="72"/>
-  <property name="mainWndWidth" value="1898"/>
-  <property name="mainWndHeight" value="1035"/>
+  <property name="mainWndWidth" value="1918"/>
+  <property name="mainWndHeight" value="1045"/>
   <property name="maximized" value="false"/>
   <property name="showToolbar" value="true"/>
   <property name="showSidebar" value="true"/>
@@ -95,7 +95,7 @@
   <property name="restoreLineWidthEnabled" value="false"/>
   <property name="numIgnoredStylusEvents" value="1"/>
   <property name="inputSystemTPCButton" value="false"/>
-  <property name="inputSystemDrawOutsideWindow" value="false"/>
+  <property name="inputSystemDrawOutsideWindow" value="true"/>
   <property name="preferredLocale" value=""/>
   <property name="stabilizerAveragingMethod" value="2"/>
   <property name="stabilizerPreprocessor" value="0"/>
@@ -135,7 +135,7 @@
       <attribute name="tool" type="string" value="eraser"/>
     </data>
     <data name="stylus2">
-      <attribute name="color" type="hex" value="fffce94f"/>
+      <attribute name="color" type="hex" value="ffff79c6"/>
       <attribute name="drawingType" type="string" value="default"/>
       <attribute name="size" type="string" value="none"/>
       <attribute name="tool" type="string" value="highlighter"/>
@@ -224,7 +224,7 @@
       <attribute name="drawingType" type="string" value="default"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
-      <attribute name="size" type="string" value="BIG"/>
+      <attribute name="size" type="string" value="MEDIUM"/>
       <attribute name="style" type="string" value="plain"/>
     </data>
     <data name="playObject">
