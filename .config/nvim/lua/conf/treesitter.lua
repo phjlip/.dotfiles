@@ -1,4 +1,3 @@
-
 --======================--
 --   Treesitter Config  --
 --======================--
@@ -9,7 +8,7 @@ require'nvim-treesitter.configs'.setup {
     enable = true,                  -- false will disable the whole extension
   },
   indent = {
-    enable = true
+    enable = false
   },
   incremental_selection = {
     enable = true,
