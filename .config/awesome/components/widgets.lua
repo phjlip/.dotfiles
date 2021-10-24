@@ -33,9 +33,19 @@ local widget = {}
 -- Date
 -------------------------------------------------------------------------------
 
+local calendar_widget = require("widgets.calendar")
+local cw = calendar_widget({
+    theme = 'onehalf',
+    placement = 'top_right',
+})
+
 date_widget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.date)
 vicious.register(date_widget, vicious.widgets.date, text_wrapper(beautiful.icon_date, beautiful.uline_date).." %R %a, %d.%b.%y")
+date_widget:connect_signal("button::press",
+    function(_, _, _, button)
+        if button == 1 then cw.toggle() end
+    end)
 widget.date = widget_wrapper(date_widget, beautiful.uline_date)
 
 -- RAM
@@ -217,6 +227,12 @@ widget.openweather = widget_wrapper(openweather_widget, beautiful.uline_weather)
 keylayout_widget = awful.widget.keyboardlayout()
 widget.keylayout = widget_wrapper(keylayout_widget, beautiful.uline_key)
 
+-- Logout
+-------------------------------------------------------------------------------
+
+logout_widget = require("widgets.logout")
+widget.logout = logout_widget()
+
 -- Systray
 -------------------------------------------------------------------------------
 
@@ -225,7 +241,7 @@ widget.systray = wibox.widget.systray()
 -- Seperator
 -------------------------------------------------------------------------------
 
-widget.seperator = wibox.widget{ markup = "  ", widget = wibox.widget.textbox, }
+widget.seperator = wibox.widget{ markup = "   ", widget = wibox.widget.textbox, }
 
 
 return widget

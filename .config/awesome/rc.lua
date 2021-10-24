@@ -48,7 +48,7 @@ local layouts = require("layouts")
 awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.floating,
-    layouts.mstab,
+    -- layouts.mstab,
     -- layouts.centered,
     -- layouts.equalarea,
 
