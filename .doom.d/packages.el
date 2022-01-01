@@ -13,7 +13,10 @@
 (package! org-ref)
 (package! org-caldav)
 (package! org-super-agenda)
-(package! org-roam-bibtex)
+(package! org-xournalpp
+  :recipe (:host gitlab
+           :repo "vherrmann/org-xournalpp"
+           :files ("resources" "*.el")))
 
 (package! visual-fill-column)
 (package! oauth2)

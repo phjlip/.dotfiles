@@ -235,6 +235,7 @@
 
 (defun efs/org-mode-setup ()
   (visual-line-mode 1)
+  (hl-todo-mode 1)
   ;; (org-indent-mode)
   (variable-pitch-mode 1))
 
@@ -244,6 +245,7 @@
   :config
 
   (setq org-ellipsis " ▾")
+  (setq org-hide-emphasis-markers t)
 
   ;; agenda
   (setq org-agenda-start-with-log-mode t)
@@ -362,19 +364,30 @@
        "* %? %^{Event}\n %^T %i" :empty-lines 1))))
 
 
+;; (use-package! org-roam
+;;   :config
+;;   (setq org-roam-index-file "~/Dropbox/org/roam/brain.org"
+;;         org-roam-tag-sources '(prop all-directories))
+;;   (setq org-roam-capture-templates
+;;         '(("f" "New File" plain (function org-roam--capture-get-point)
+;;                :file-name "%(read-directory-name \"path: \" \"~/Dropbox/org/roam/\")/${slug}"
+;;                :head "#+title: ${title}\n#+created: %(format-time-string \"[%Y-%m-%d]\")\n#+roam_key: ${key}\n#+roam_tags: ${tags}\n\n%?"
+;;                :unnarrowed t)
+;;           ("n" "Note" plain (function org-roam--capture-get-point)
+;;                :file-name "%(read-directory-name \"path: \" \"~/Dropbox/org/roam/\")/${slug}"
+;;                :head "#+title: ${title}\n#+created: %(format-time-string \"[%Y-%m-%d]\")\n\n%?"
+;;                :unnarrowed t))))
+
 (use-package! org-roam
+  :custom
+  (org-roam-directory "~/cloud/roam")
   :config
-  (setq org-roam-index-file "~/Dropbox/org/roam/brain.org"
-        org-roam-tag-sources '(prop all-directories))
   (setq org-roam-capture-templates
-        '(("f" "New File" plain (function org-roam--capture-get-point)
-               :file-name "%(read-directory-name \"path: \" \"~/Dropbox/org/roam/\")/${slug}"
-               :head "#+title: ${title}\n#+created: %(format-time-string \"[%Y-%m-%d]\")\n#+roam_key: ${key}\n#+roam_tags: ${tags}\n\n%?"
-               :unnarrowed t)
-          ("n" "Note" plain (function org-roam--capture-get-point)
-               :file-name "%(read-directory-name \"path: \" \"~/Dropbox/org/roam/\")/${slug}"
-               :head "#+title: ${title}\n#+created: %(format-time-string \"[%Y-%m-%d]\")\n\n%?"
-               :unnarrowed t))))
+        '(("d" "default" plain "%?"
+           :target (file+head "${slug}.org"
+                           "#+title: ${title}\n")
+           :unnarrowed t)))
+  (org-roam-setup))
 
 
 (use-package! org-superstar
@@ -393,6 +406,11 @@
   :hook (org-mode . org-fancy-priorities-mode)
   :config
   (setq org-fancy-priorities-list '("1" "2" "3" "4")))
+
+
+(use-package! org-xournalpp
+  :config
+  (add-hook 'org-mode-hook 'org-xournalpp-mode))
 
 
 (defun efs/org-mode-visual-fill ()
