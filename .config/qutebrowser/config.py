@@ -5,11 +5,12 @@ config.load_autoconfig(False)
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.algorithm = "lightness-cielab"
 c.content.notifications.enabled = False
-c.url.start_pages = ["startpage.com"]
+c.url.start_pages = ["google.com"]
 c.url.searchengines = {
     "gg": "https://www.google.com/search?q={}",
     "ddg": "https://duckduckgo.com/?q={}",
-    "DEFAULT": "https://startpage.com/sp/search?query={}"
+    "stp": "https://startpage.com/sp/search?query={}",
+    "DEFAULT": "https://www.google.com/search?q={}"
 }
 c.auto_save.session = True
 c.fonts.default_family = "Iosevka"
