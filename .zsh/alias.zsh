@@ -13,6 +13,8 @@ alias vim=nvim
 
 alias ra=ranger
 
+alias scrotroam='scrot -s ~/cloud/roam/fig/%b%d::%H-%M-%S.png'
+
 alias python=python3
 alias pip=pip3
 
