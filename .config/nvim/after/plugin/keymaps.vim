@@ -10,6 +10,10 @@ noremap <silent> <C-S>          :update<CR>
 vnoremap <silent> <C-S>         <C-C>:update<CR>
 inoremap <silent> <C-S>         <C-O>:update<CR>
 
+" Save on esc
+nmap <ESC><ESC>                 :w<CR>
+imap <ESC><ESC>                 <ESC>:w<CR>
+
 " Jump paragraphs
 nnoremap <C-j> }
 nnoremap <C-k> {
