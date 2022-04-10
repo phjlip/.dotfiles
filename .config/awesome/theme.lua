@@ -6,6 +6,7 @@ local gears = require("gears")
 
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
+local titlebar_path = "/usr/share/themes/Breeze-Dark/assets/"
 
 local theme = {}
 
@@ -45,7 +46,7 @@ theme.fg_minimize   = theme.white
 theme.useless_gap   = dpi(5)
 theme.border_width  = dpi(1)
 theme.border_normal = "#000000"
-theme.border_focus  = theme.gray
+theme.border_focus  = "#000000"
 theme.border_marked = "#91231c"
 
 -- WIDGETS
@@ -123,7 +124,10 @@ theme.icon_weather_clouds_overcast  = format_icon("  ")
 theme.icon_weather_rain_snow        = format_icon("  ")
 theme.icon_weather_rain_heavy       = format_icon("  ")
 
+-- WIBAR
+-------------------------------------------------------------------------------
 theme.wibar_height = dpi(27)
+--theme.wibar_border_color = "#FFFFFFFF"
 
 -- TAGLIST
 -------------------------------------------------------------------------------
@@ -140,7 +144,7 @@ theme.taglist_fg_volatile   = theme.blue
 theme.taglist_bg_focus      = theme.yellow
 theme.taglist_bg_urgent     = theme.red
 theme.taglist_bg_occupied   = theme.white
-theme.taglist_bg_empty      = theme.background
+theme.taglist_bg_empty      = theme.bg_normal
 theme.taglist_bg_volatile   = theme.yellow
 
 theme.tag_uline_size = dpi(2) 
@@ -182,31 +186,58 @@ theme.menu_width  = dpi(100)
 -------------------------------------------------------------------------------
 -- titlebar_[bg|fg]_[normal|focus]
 
-theme.titlebar_close_button_normal = themes_path.."default/titlebar/close_normal.png"
-theme.titlebar_close_button_focus  = themes_path.."default/titlebar/close_focus.png"
+theme.titlebar_bg_normal = theme.bg_focus
+theme.titlebar_bg_focus  = theme.bg_normal
 
-theme.titlebar_minimize_button_normal = themes_path.."default/titlebar/minimize_normal.png"
-theme.titlebar_minimize_button_focus  = themes_path.."default/titlebar/minimize_focus.png"
+theme.titlebar_close_button_normal                    = titlebar_path.."titlebutton-close-backdrop.png"
+theme.titlebar_close_button_normal_hover              = titlebar_path.."titlebutton-close-hover-backdrop.png"
+theme.titlebar_close_button_normal_press              = titlebar_path.."titlebutton-close-active-backdrop.png"
+theme.titlebar_close_button_focus                     = titlebar_path.."titlebutton-close.png"
+theme.titlebar_close_button_focus_hover               = titlebar_path.."titlebutton-close-hover.png"
+theme.titlebar_close_button_focus_press               = titlebar_path.."titlebutton-close-active.png"
 
-theme.titlebar_ontop_button_normal_inactive = themes_path.."default/titlebar/ontop_normal_inactive.png"
-theme.titlebar_ontop_button_focus_inactive  = themes_path.."default/titlebar/ontop_focus_inactive.png"
-theme.titlebar_ontop_button_normal_active = themes_path.."default/titlebar/ontop_normal_active.png"
-theme.titlebar_ontop_button_focus_active  = themes_path.."default/titlebar/ontop_focus_active.png"
+theme.titlebar_minimize_button_normal                 = titlebar_path.."titlebutton-minimize-backdrop.png"
+theme.titlebar_minimize_button_normal_hover           = titlebar_path.."titlebutton-minimize-hover-backdrop.png"
+theme.titlebar_minimize_button_normal_press           = titlebar_path.."titlebutton-minimize-press-backdrop.png"
+theme.titlebar_minimize_button_focus                  = titlebar_path.."titlebutton-minimize.png"
+theme.titlebar_minimize_button_focus_hover            = titlebar_path.."titlebutton-minimize-hover.png"
+theme.titlebar_minimize_button_focus_press            = titlebar_path.."titlebutton-minimize-press.png"
 
-theme.titlebar_sticky_button_normal_inactive = themes_path.."default/titlebar/sticky_normal_inactive.png"
-theme.titlebar_sticky_button_focus_inactive  = themes_path.."default/titlebar/sticky_focus_inactive.png"
-theme.titlebar_sticky_button_normal_active = themes_path.."default/titlebar/sticky_normal_active.png"
-theme.titlebar_sticky_button_focus_active  = themes_path.."default/titlebar/sticky_focus_active.png"
+theme.titlebar_maximized_button_normal_inactive       = titlebar_path.."titlebutton-maximize-backdrop.png"
+theme.titlebar_maximized_button_normal_inactive_hover = titlebar_path.."titlebutton-maximize-hover-backdrop.png"
+theme.titlebar_maximized_button_normal_inactive_press = titlebar_path.."titlebutton-maximize-press-backdrop.png"
+theme.titlebar_maximized_button_focus_inactive        = titlebar_path.."titlebutton-maximize.png"
+theme.titlebar_maximized_button_focus_inactive_hover  = titlebar_path.."titlebutton-maximize-hover.png"
+theme.titlebar_maximized_button_focus_inactive_press  = titlebar_path.."titlebutton-maximize-press.png"
+theme.titlebar_maximized_button_normal_active         = titlebar_path.."titlebutton-maximize-maximized-backdrop.png"
+theme.titlebar_maximized_button_normal_active_hover   = titlebar_path.."titlebutton-maximize-maximized-hover-backdrop.png"
+theme.titlebar_maximized_button_normal_active_press   = titlebar_path.."titlebutton-maximize-maximized-press-backdrop.png"
+theme.titlebar_maximized_button_focus_active          = titlebar_path.."titlebutton-maximize-maximized.png"
+theme.titlebar_maximized_button_focus_active_hover    = titlebar_path.."titlebutton-maximize-maximized-hover.png"
+theme.titlebar_maximized_button_focus_active_press    = titlebar_path.."titlebutton-maximize-maximized-press.png"
 
-theme.titlebar_floating_button_normal_inactive = themes_path.."default/titlebar/floating_normal_inactive.png"
-theme.titlebar_floating_button_focus_inactive  = themes_path.."default/titlebar/floating_focus_inactive.png"
-theme.titlebar_floating_button_normal_active = themes_path.."default/titlebar/floating_normal_active.png"
-theme.titlebar_floating_button_focus_active  = themes_path.."default/titlebar/floating_focus_active.png"
+theme.titlebar_ontop_button_normal_inactive          = titlebar_path.."radio-unchecked-backdrop-insensitive.png"
+theme.titlebar_ontop_button_normal_inactive_hover    = titlebar_path.."radio-unchecked-hover.png"
+theme.titlebar_ontop_button_focus_inactive           = titlebar_path.."radio-unchecked-backdrop.png"
+theme.titlebar_ontop_button_focus_inactive_hover     = titlebar_path.."radio-unchecked-hover.png"
+theme.titlebar_ontop_button_normal_active            = titlebar_path.."radio-checked-backdrop-insensitive.png"
+theme.titlebar_ontop_button_normal_active_hover      = titlebar_path.."radio-checked-hover.png"
+theme.titlebar_ontop_button_focus_active             = titlebar_path.."radio-checked-backdrop.png"
+theme.titlebar_ontop_button_focus_active_hover       = titlebar_path.."radio-checked-hover.png"
 
-theme.titlebar_maximized_button_normal_inactive = themes_path.."default/titlebar/maximized_normal_inactive.png"
-theme.titlebar_maximized_button_focus_inactive  = themes_path.."default/titlebar/maximized_focus_inactive.png"
-theme.titlebar_maximized_button_normal_active = themes_path.."default/titlebar/maximized_normal_active.png"
-theme.titlebar_maximized_button_focus_active  = themes_path.."default/titlebar/maximized_focus_active.png"
+theme.titlebar_sticky_button_normal_inactive          = titlebar_path.."check-unchecked-backdrop-insensitive.png"
+theme.titlebar_sticky_button_normal_inactive_hover    = titlebar_path.."check-unchecked-hover.png"
+theme.titlebar_sticky_button_focus_inactive           = titlebar_path.."check-unchecked-backdrop.png"
+theme.titlebar_sticky_button_focus_inactive_hover     = titlebar_path.."check-unchecked-hover.png"
+theme.titlebar_sticky_button_normal_active            = titlebar_path.."check-checked-backdrop-insensitive.png"
+theme.titlebar_sticky_button_normal_active_hover      = titlebar_path.."check-checked-hover.png"
+theme.titlebar_sticky_button_focus_active             = titlebar_path.."check-checked-backdrop.png"
+theme.titlebar_sticky_button_focus_active_hover       = titlebar_path.."check-checked-hover.png"
+
+theme.titlebar_floating_button_normal_inactive        = themes_path.."default/titlebar/floating_normal_inactive.png"
+theme.titlebar_floating_button_focus_inactive         = themes_path.."default/titlebar/floating_focus_inactive.png"
+theme.titlebar_floating_button_normal_active          = themes_path.."default/titlebar/floating_normal_active.png"
+theme.titlebar_floating_button_focus_active           = themes_path.."default/titlebar/floating_focus_active.png"
 
 -- theme.wallpaper = themes_path.."default/background.png"
 

@@ -6,6 +6,8 @@
 local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
+local xresources = require("beautiful.xresources")
+local dpi = xresources.apply_dpi
 
 -- turn titlebar on when client is floating
 -------------------------------------------------------------------------------
@@ -41,6 +43,7 @@ client.connect_signal("request::titlebars", function(c)
         end)
     )
 
+    -- awful.titlebar(c, {size = 100}) : setup {
     awful.titlebar(c) : setup {
         { -- Left
             awful.titlebar.widget.iconwidget(c),
@@ -56,11 +59,32 @@ client.connect_signal("request::titlebars", function(c)
             layout  = wibox.layout.flex.horizontal
         },
         { -- Right
-            awful.titlebar.widget.floatingbutton (c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton   (c),
-            awful.titlebar.widget.ontopbutton    (c),
-            awful.titlebar.widget.closebutton    (c),
+            -- awful.titlebar.widget.floatingbutton (c),
+            {
+            	awful.titlebar.widget.stickybutton   (c),
+		margins = dpi(4),
+		widget = wibox.container.margin
+	    },
+            {
+            	awful.titlebar.widget.ontopbutton    (c),
+		margins = dpi(4),
+		widget = wibox.container.margin
+	    },
+            {
+            	awful.titlebar.widget.minimizebutton (c),
+		margins = dpi(4),
+		widget = wibox.container.margin
+	    },
+            {
+            	awful.titlebar.widget.maximizedbutton(c),
+		margins = dpi(4),
+		widget = wibox.container.margin
+	    },
+	    {
+            	awful.titlebar.widget.closebutton    (c),
+		margins = dpi(4),
+		widget = wibox.container.margin
+	    },
             layout = wibox.layout.fixed.horizontal()
         },
         layout = wibox.layout.align.horizontal

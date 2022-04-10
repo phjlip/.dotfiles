@@ -27,7 +27,7 @@ awful.screen.connect_for_each_screen(function(s)
     if hide_wibar == false then
 
         -- Create the wibox
-        s.mywibox = awful.wibar({ position = "top", screen = s, shape = gears.shape.rounded_bar, border_width = 3})
+        s.mywibox = awful.wibar({ position = "top", screen = s, shape = gears.shape.rounded_bar, border_width = dpi(3)})
 
         s.mywibox:setup {
             layout = wibox.layout.align.horizontal,

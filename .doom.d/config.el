@@ -15,8 +15,8 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "Iosevka nerd font" :size 14)
-      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 14))
+(setq doom-font (font-spec :family "Iosevka nerd font" :size 16)
+      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -159,11 +159,6 @@
   (setq org-ellipsis " ▾")
   (setq org-hide-emphasis-markers t)
 
-  ;; agenda
-  (setq org-agenda-start-with-log-mode t)
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
-
   (setq org-agenda-files
         '("~/Dropbox/org/agenda/Tasks.org"
           "~/Dropbox/org/agenda/Personal.org"
@@ -177,7 +172,7 @@
           (sequence "IDEA(i)" "PLAN(p)" "ACTIVE(a)" "HOLD(h)" "|" "FINISHED(f)" "CANCELED(q)" "BACKLOOP(l)")))
 
   (setq org-todo-keyword-faces
-        '(("TODO" . "#ECBE7B") ("NEXT" . "#51afef")))
+        '(("TODO" . "#ECBE7B") ("NEXT" . "#51afef") ("WAIT" . "#a7cc8c") ("WIP" . "#d291e4")))
 
   (setq org-refile-targets
         '(("Archive.org" :maxlevel . 1)
@@ -204,62 +199,66 @@
           ("code" . ?c)
           ("buy" . ?b)
           ("read" . ?r)))
-
   ;; Configure custom agenda views
-  (setq org-agenda-custom-commands
-    '(("d" "Dashboard"
-      ((agenda "" ((org-deadline-warning-days 7)))
-        (todo "WIP" ((org-agenda-overriding-header "Current Tasks")))
-        (todo "NEXT" ((org-agenda-overriding-header "Next Tasks")))
-        (tags-todo "+TODO=\"TODO\"+@work+LEVEL=2" ((org-agenda-overriding-header "Work")))
-        (tags-todo "+TODO=\"TODO\"+@uni+LEVEL=2" ((org-agenda-overriding-header "Uni")))
-        (tags-todo "+TODO=\"TODO\"+@home+LEVEL=2" ((org-agenda-overriding-header "Home")))
-        (tags-todo "+TODO=\"TODO\"+@private+LEVEL=2" ((org-agenda-overriding-header "Private")))
-        (tags-todo "+TODO=\"TODO\"+@system+LEVEL=2" ((org-agenda-overriding-header "System")))))
+  ;; (setq org-agenda-custom-commands
+  ;;   '(("d" "Dashboard"
+  ;;     ((agenda "" ((org-deadline-warning-days 7)))
+  ;;       (todo "WIP" ((org-agenda-overriding-header "Current Tasks")))
+  ;;       (todo "NEXT" ((org-agenda-overriding-header "Next Tasks")))
+  ;;       (tags-todo "+TODO=\"TODO\"+@work+LEVEL=2" ((org-agenda-overriding-header "Work")))
+  ;;       (tags-todo "+TODO=\"TODO\"+@uni+LEVEL=2" ((org-agenda-overriding-header "Uni")))
+  ;;       (tags-todo "+TODO=\"TODO\"+@home+LEVEL=2" ((org-agenda-overriding-header "Home")))
+  ;;       (tags-todo "+TODO=\"TODO\"+@private+LEVEL=2" ((org-agenda-overriding-header "Private")))
+  ;;       (tags-todo "+TODO=\"TODO\"+@system+LEVEL=2" ((org-agenda-overriding-header "System")))))
 
-    ("n" "Next Tasks"
-      ((todo "NEXT" ((org-agenda-overriding-header "Next Tasks")))))
+  ;;   ("n" "Next Tasks"
+  ;;     ((todo "NEXT" ((org-agenda-overriding-header "Next Tasks")))))
 
-    ;; Low-effort next actions
-    ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
-      ((org-agenda-overriding-header "Low Effort Tasks")
-       (org-agenda-max-todos 20)
-       (org-agenda-files org-agenda-files)))
+  ;;   ("k" "Kanban"
+  ;;    ((tags-todo "+TODO=\"TODO\"+@project+CATEGORY=\"1\"" ((org-agenda-overriding-header "To Do")))
+  ;;     (tags-todo "+TODO=\"WIP\"+@project+CATEGORY=\"1\"" ((org-agenda-overriding-header "Work in Progress")))
+  ;;     (tags-todo "+TODO=\"DONE\"+@project+CATEGORY=\"1\"" ((org-agenda-overriding-header "Done")))))
 
-    ("p" "Project Status"
-      ((todo "IDEA"
-             ((org-agenda-overriding-header "Ideas in Mind")
-              (org-agenda-files org-agenda-files)))
-       (todo "PLAN"
-             ((org-agenda-overriding-header "In Planning")
-              (org-agenda-todo-list-sublevels nil)
-              (org-agenda-files org-agenda-files)))
-       (todo "HOLD"
-             ((org-agenda-overriding-header "Waiting for Parts")
-              (org-agenda-files org-agenda-files)))
-       (todo "ACTIVE"
-             ((org-agenda-overriding-header "Active Projects")
-              (org-agenda-files org-agenda-files)))
-       (todo "FINISHED"
-             ((org-agenda-overriding-header "Finished Projects")
-              (org-agenda-files org-agenda-files)))
-       (todo "CANCELED"
-             ((org-agenda-overriding-header "Canceled Projects")
-              (org-agenda-files org-agenda-files)))))))
+  ;;   ;; Low-effort next actions
+  ;;   ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+  ;;     ((org-agenda-overriding-header "Low Effort Tasks")
+  ;;      (org-agenda-max-todos 20)
+  ;;      (org-agenda-files org-agenda-files)))
+
+  ;;   ("p" "Project Status"
+  ;;     ((todo "IDEA"
+  ;;            ((org-agenda-overriding-header "Ideas in Mind")
+  ;;             (org-agenda-files org-agenda-files)))
+  ;;      (todo "PLAN"
+  ;;            ((org-agenda-overriding-header "In Planning")
+  ;;             (org-agenda-todo-list-sublevels nil)
+  ;;             (org-agenda-files org-agenda-files)))
+  ;;      (todo "HOLD"
+  ;;            ((org-agenda-overriding-header "Waiting for Parts")
+  ;;             (org-agenda-files org-agenda-files)))
+  ;;      (todo "ACTIVE"
+  ;;            ((org-agenda-overriding-header "Active Projects")
+  ;;             (org-agenda-files org-agenda-files)))
+  ;;      (todo "FINISHED"
+  ;;            ((org-agenda-overriding-header "Finished Projects")
+  ;;             (org-agenda-files org-agenda-files)))
+  ;;      (todo "CANCELED"
+  ;;            ((org-agenda-overriding-header "Canceled Projects")
+  ;;             (org-agenda-files org-agenda-files)))))))
 
 
   ;; Captures
   (setq org-capture-templates
     `(("t" "Tasks")
-      ("tt" "Todo" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
+      ("tt" "Todo" entry (file "~/Dropbox/org/agenda/Tasks.org")
            "* TODO %? %^{Task} \t %^G\n  %u\n  %i" :empty-lines 1)
-      ("tn" "Next" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
+      ("tn" "Next" entry (file "~/Dropbox/org/agenda/Tasks.org")
            "* NEXT %?  %^{Task}  %^G\n  %u\n  %i" :empty-lines 1)
-      ("tw" "Work in Progress" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
+      ("tw" "Work in Progress" entry (file "~/Dropbox/org/agenda/Tasks.org")
            "* WIP %? %^{Task} %^G\n %u\n SCHEDULED: %t %i" :empty-lines 1)
 
       ("p" "Projects")
-      ("pn" "Idea" entry (file+olp "~/Dropbox/org/agenda/Tasks.org" "Open")
+      ("pn" "Idea" entry (file "~/Dropbox/org/agenda/Tasks.org")
            "* IDEA %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
       ("a" "Appointment")
@@ -269,6 +268,244 @@
        "* %? %^{Event}\n %^T %i" :empty-lines 1))))
 
 
+(defun my-agenda-prefix ()
+  (format "%s" (my-agenda-indent-string (org-current-level))))
+
+(defun my-agenda-indent-string (level)
+  (if (= level 1)
+      ""
+    (let ((str " ╰─"))
+      (while (> level 2)
+        (setq level (1- level)
+              str (concat str "──")))
+      (concat str "►"))))
+
+
+(use-package! org-super-agenda
+  :after org-agenda
+  :config
+  ;; (setq org-agenda-skip-scheduled-if-done t
+  ;;     org-agenda-skip-deadline-if-done t
+  ;;     org-agenda-include-deadlines t
+  ;;     org-agenda-block-separator nil
+  ;;     org-agenda-compact-blocks t
+  ;;     org-agenda-start-day nil ;; i.e. today
+  ;;     org-agenda-span 1
+  ;;     org-agenda-start-on-weekday nil)
+  (setq org-super-agenda-header-map (make-sparse-keymap)
+        org-agenda-dim-blocked-tasks nil)
+  ;; (setq org-super-agenda-header-map evil-org-agenda-mode-map)
+  ;; agenda
+  ;; (setq org-agenda-start-with-log-mode t)
+  ;; (setq org-log-done 'time)
+  ;; (setq org-log-into-drawer t)
+  (setq org-agenda-custom-commands
+        '(("d" "Dashboard"
+           ((agenda "" ((org-deadline-warning-days 7)))
+            (todo "" ((org-agenda-overriding-header "Work Tasks")
+                      (org-agenda-prefix-format " %e %(my-agenda-prefix) ")
+                      (org-tags-match-list-sublevels t)
+                      (org-super-agenda-groups
+                        '((:name "To Do"
+                                :and (:todo t
+                                      :tag "@work"))
+                         (:name "Next in Line"
+                                :and (:todo "NEXT"
+                                      :children nil
+                                      :tag "@work"))
+                         (:name "Doing"
+                                :and (:todo "WIP"
+                                      :tag "@work"))
+                         (:name "Done"
+                                :and (:todo "DONE"
+                                      :tag "@work"))
+                         (:discard (:anything))))))
+            (todo "" ((org-agenda-overriding-header "University Tasks")
+                      (org-agenda-prefix-format " %e %(my-agenda-prefix) ")
+                      (org-tags-match-list-sublevels t)
+                      (org-super-agenda-groups
+                        '((:name "To Do"
+                                :and (:todo t
+                                      :tag "@uni"))
+                         (:name "Next in Line"
+                                :and (:todo "NEXT"
+                                      :children nil
+                                      :tag "@uni"))
+                         (:name "Doing"
+                                :and (:todo "WIP"
+                                      :tag "@uni"))
+                         (:name "Done"
+                                :and (:todo "DONE"
+                                      :tag "@uni"))
+                         (:discard (:anything))))))
+            (todo "" ((org-agenda-overriding-header "Home Tasks")
+                      (org-agenda-prefix-format " %e %(my-agenda-prefix) ")
+                      (org-tags-match-list-sublevels t)
+                      (org-super-agenda-groups
+                        '((:name "To Do"
+                                :and (:todo t
+                                      :tag "@home"))
+                         (:name "Next in Line"
+                                :and (:todo "NEXT"
+                                      :children nil
+                                      :tag "@home"))
+                         (:name "Doing"
+                                :and (:todo "WIP"
+                                      :tag "@home"))
+                         (:name "Done"
+                                :and (:todo "DONE"
+                                      :tag "@home"))
+                         (:discard (:anything))))))
+            (todo "" ((org-agenda-overriding-header "Personal Tasks")
+                      (org-agenda-prefix-format " %e %(my-agenda-prefix) ")
+                      (org-tags-match-list-sublevels t)
+                      (org-super-agenda-groups
+                        '((:name "To Do"
+                                :and (:todo t
+                                      :tag "@private"))
+                         (:name "Next in Line"
+                                :and (:todo "NEXT"
+                                      :children nil
+                                      :tag "@private"))
+                         (:name "Doing"
+                                :and (:todo "WIP"
+                                      :tag "@private"))
+                         (:name "Done"
+                                :and (:todo "DONE"
+                                      :tag "@private"))
+                         (:discard (:anything))))))))
+          ("p" "Projects"
+           ((todo "" ((org-agenda-overriding-header "Projects")
+                      (org-agenda-files org-agenda-files)
+                      (org-super-agenda-groups
+                       '((:name "Ideas in Mind"
+                                :todo "IDEA")
+                         (:name "In Planning"
+                                :todo "PLAN")
+                         (:name "Waiting for Things"
+                                :todo "HOLD")
+                         (:name "Active Developement"
+                                :todo "ACTIVE")
+                         (:name "Finished"
+                                :todo "FINISHED")
+                         (:name "Canceled"
+                                :todo "CANCELED")
+                         (:discard (:anything))))))))
+          ("c" . "Context Kanbans")
+          ("cw" "Work"
+           ((todo "" ((org-agenda-overriding-header "Work Kanban")
+                      (org-super-agenda-groups
+                       '((:name "Awaiting"
+                          :and (:todo "WAIT"
+                                :tag "@work"))
+                         (:name "To Do"
+                          :and (:todo "TODO"
+                                :children nil
+                                :tag "@work"))
+                         (:name "Next in Line"
+                          :and (:todo "NEXT"
+                                :children nil
+                                :tag "@work"))
+                         (:name "Doing"
+                          :and (:todo "WIP"
+                                :tag "@work"))
+                         (:name "Done"
+                          :and (:todo "DONE"
+                                :tag "@work"))
+                         (:discard (:anything))))))))
+          ("cu" "Uni"
+           ((todo "" ((org-agenda-overriding-header "Uni Kanban")
+                      (org-super-agenda-groups
+                       '((:name "Awaiting"
+                          :and (:todo "WAIT"
+                                :tag "@uni"))
+                         (:name "To Do"
+                          :and (:todo "TODO"
+                                :children nil
+                                :tag "@uni"))
+                         (:name "Next in Line"
+                          :and (:todo "NEXT"
+                                :children nil
+                                :tag "@uni"))
+                         (:name "Doing"
+                          :and (:todo "WIP"
+                                :tag "@uni"))
+                         (:name "Done"
+                          :and (:todo "DONE"
+                                :tag "@uni"))
+                         (:discard (:anything))))))))
+          ("ch" "Home"
+           ((todo "" ((org-agenda-overriding-header "Home Improvement Kanban")
+                      (org-super-agenda-groups
+                       '((:name "Awaiting"
+                          :and (:todo "WAIT"
+                                :children nil
+                                :tag "@home"))
+                         (:name "To Do"
+                          :and (:todo "TODO"
+                                :children nil
+                                :tag "@home"))
+                         (:name "Next in Line"
+                          :and (:todo "NEXT"
+                                :children nil
+                                :tag "@home"))
+                         (:name "Doing"
+                          :and (:todo "WIP"
+                                :tag "@home"))
+                         (:name "Done"
+                          :and (:todo "DONE"
+                                :tag "@home"))
+                         (:discard (:anything))))))))
+          ("cp" "Personal"
+           ((todo "" ((org-agenda-overriding-header "Personal Kanban")
+                      (org-super-agenda-groups
+                       '((:name "Awaiting"
+                          :and (:todo "WAIT"
+                                :tag "@private"))
+                         (:name "To Do"
+                          :and (:todo "TODO"
+                                :children nil
+                                :tag "@private"))
+                         (:name "Next in Line"
+                          :and (:todo "NEXT"
+                                :children nil
+                                :tag "@private"))
+                         (:name "Doing"
+                          :and (:todo "WIP"
+                                :tag "@private"))
+                         (:name "Done"
+                          :and (:todo "DONE"
+                                :tag "@private"))
+                         (:discard (:anything))))))))
+          ("cq" "Projects"
+           (
+            ;; (lambda (arg) (call-interactively #'proj-id-prop-search nil))
+            (todo "" ((org-agenda-overriding-header "Project Kanban")
+                       (org-super-agenda-groups
+                        '((:name "Some Project Name"
+                           :pred (lambda (item) (s-matches?
+                                   (interactive
+                                    (list
+                                     (completing-read "Project ID: " (org-property-values "PROJID")))) item))
+                           )))))))))
+  ; Milestone Todo tag for every todo with children
+  ; these are not activley worked on but reached when
+  ; child tasks are done
+  (org-super-agenda-mode))
+
+
+(defun proj-id-prop-search (id)
+  "Search by WITH propery, which is made inheritable for this function"
+  (interactive
+   (list
+    (completing-read "Project ID: " (org-property-values "PROJID"))))
+  (let ((org-use-property-inheritance
+         (append org-use-property-inheritance '("PROJID"))))
+    ;; (org-tags-view t (format "PROJID=\"%s\"/TODO" id))
+    (org-todo-list)
+    ))
+
+
 (use-package! org-roam
   :custom
   (org-roam-directory "~/cloud/roam")
@@ -276,7 +513,7 @@
   (setq org-roam-capture-templates
         '(("d" "default" plain "%?"
            :target (file+head "${slug}.org"
-                           "#+title: ${title}\n")
+                              "#+title: ${title}\n#+startup: latexpreview imagepreview\n")
            :unnarrowed t)))
   (org-roam-setup))
 
