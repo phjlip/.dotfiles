@@ -2,7 +2,6 @@
 #|   ZSH Prompt Fancy   |
 #========================
 
-# FIXME Virtual Env
 # FIXME Refactor the variable naming, w/o linebreak etc
 
 # setup virtualenv support
@@ -24,23 +23,23 @@ GIT_COLOR='red'
 PARAN_L=''
 PARAN_R=''
 
-LB_CHAR_UP='%F{$LB_COLOR}╭─%f'
+LB_CHAR_UP="%F{$LB_COLOR}╭─%f"
 # LB_CHAR_UP=''
-LB_CHAR_DOWN='%F{$LB_COLOR}╰─%f'
+LB_CHAR_DOWN="%F{$LB_COLOR}╰─%f"
 # LB_CHAR_DOWN=''
 
 PROMPT_SYMBOL=''
 
 # GIT_TRANS='%K{$DIR_COLOR}%k'
 GIT_TRANS="%K{$GIT_COLOR}%F{$PARAN_COLOR}$PARAN_R%f%k"
-GIT_SYMBOL='%F{$USER_COLOR} %f'
+GIT_SYMBOL="%F{$USER_COLOR} %f"
 NEWLINE=$'\n'
 
-C_BEG='%F{$GIT_COLOR}'
-C_END='%f'
+C_BEG="%F{$GIT_COLOR}"
+C_END="%f"
 
-GIT_BEG='%B%K{$GIT_COLOR}'
-GIT_END='%k%b'
+GIT_BEG="%B%K{$GIT_COLOR}"
+GIT_END="%k%b"
 
 VIRTUALENV_PREFIX="%F{$VENV_COLOR}$PARAN_L%f%K{$VENV_COLOR}%F{black}"
 VIRTUALENV_SUFFIX="%f%k%F{$VENV_COLOR}$PARAN_R%f "
@@ -54,8 +53,11 @@ PROMPT_DIR=" $DIR_TRANS%K{$THIRD_COLOR}%B%F{$DIR_COLOR} %(3~|../%2~|%~)%f%k%b"
 
 # Build prompt
 if [ $WITH_LINEBREAK = 1 ]; then
+	# PROMPT_PRE='%F{$LB_COLOR}╭─%f$(virtualenv_prompt_info)$PROMPT_USER$PROMPT_DIR%F{$THIRD_COLOR}'
 	PROMPT_PRE='$LB_CHAR_UP$(virtualenv_prompt_info)$PROMPT_USER$PROMPT_DIR%F{$THIRD_COLOR}'
+	# PROMPT_GIT='$C_END$GIT_TRANS$GIT_BEG$GIT_SYMBOL %s $GIT_END$C_BEG'
 	PROMPT_GIT='$C_END$GIT_TRANS$GIT_BEG$GIT_SYMBOL %s $GIT_END$C_BEG'
+	# PROMPT_SUF='$PARAN_R%f$NEWLINE%F{$LB_COLOR}╰─%f%B%(?.%F{green}$PROMPT_SYMBOL.%F{red}$PROMPT_SYMBOL)%f%b '
 	PROMPT_SUF='$PARAN_R%f$NEWLINE$LB_CHAR_DOWN%B%(?.%F{green}$PROMPT_SYMBOL.%F{red}$PROMPT_SYMBOL)%f%b '
 else
 	PROMPT_PRE='$(virtualenv_prompt_info)$PROMPT_USER$PROMPT_DIR'
