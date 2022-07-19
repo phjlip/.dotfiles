@@ -1,0 +1,50 @@
+rename scala-tptp-parser.jar
+search fonts
+search
+search net
+search dev
+shell mkdir layouts
+shell wget https://github.com/BlingCorp/bling/raw/master/layout/mstab.lua
+shell wget https://github.com/BlingCorp/bling/raw/master/layout/equalarea.lua
+shell wget https://github.com/BlingCorp/bling/raw/master/layout/centered.lua
+shell wget https://github.com/BlingCorp/bling/raw/master/layout/init.lua
+shell wget https://github.com/BlingCorp/bling/raw/master/widget/tabbar/default.lua tabbar.lua
+rename tabbar.lua
+search emacs
+search org
+search compton
+search comp
+search picom
+delete y
+search cloud
+search theem
+search theme
+search 
+search code
+search .screen
+rename allplugged.sh
+rename plugged.sh
+rename unplugged.sh
+search local
+search zsh
+search config
+search nvim
+search .zsh
+shell mkdir lualine
+touch evilline
+rename evilline.lua
+rename bubbles.lua
+
+rename rc.lua_
+rename rc.lua
+rename 
+rename awesome_floppz
+rename awesome_ryan
+rename awesome_moo
+rename awesome_surreal
+rename awesome_linear
+rename awesome_old
+rename awesome
+search xprofile
+touch clickable-container.lua
+delete
