@@ -25,7 +25,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Dropbox/org/")
+(setq org-directory "~/cloud/org/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -76,43 +76,43 @@
       "M-h"    'org-agenda-date-earlier-minutes)
 
 
-(use-package! auth-source
-  :init
-  (setq auth-source-debug t
-        auth-source-do-cache t))
+;; (use-package! auth-source
+;;   :init
+;;   (setq auth-source-debug t
+;;         auth-source-do-cache t))
 
 
-(use-package! auth-source-pass
-  :init
-  (setq auth-sources nil)
-  (auth-source-pass-enable))
+;; (use-package! auth-source-pass
+;;   :init
+;;   (setq auth-sources nil)
+;;   (auth-source-pass-enable))
 
 
-(use-package! org-caldav
-  :init
-  (setq org-caldav-delete-org-entries 'always
-        org-caldav-delete-calendar-entries 'always
-        org-caldav-sync-changes-to-org 'all
-        org-caldav-show-sync-results nil
-        org-caldav-backup-file "~/Dropbox/org/agenda/org-caldav-backup.org"
-        org-icalendar-timezone "Europe/Berlin"
-        org-caldav-save-directory "~/Dropbox/org/agenda/"
-        org-caldav-calendars
-               '((:url "https://nextcloud05.webo.cloud/remote.php/dav/calendars/philipgottschall@gmail.com"
-                  :calendar-id "personal-1"
-                  :files nil
-                  :inbox "~/Dropbox/org/agenda/Personal.org")
-                 (:url "https://nextcloud05.webo.cloud/remote.php/dav/calendars/philipgottschall@gmail.com"
-                  :calendar-id "work"
-                  :files nil
-                  :inbox "~/Dropbox/org/agenda/Work.org")))
-  (add-hook 'org-agenda-mode-hook (lambda () (org-caldav-sync)))
-  (add-hook 'org-capture-after-finalize-hook (lambda () (org-caldav-sync))))
+;; (use-package! org-caldav
+;;   :init
+;;   (setq org-caldav-delete-org-entries 'always
+;;         org-caldav-delete-calendar-entries 'always
+;;         org-caldav-sync-changes-to-org 'all
+;;         org-caldav-show-sync-results nil
+;;         org-caldav-backup-file "~/cloud/org/agenda/org-caldav-backup.org"
+;;         org-icalendar-timezone "Europe/Berlin"
+;;         org-caldav-save-directory "~/cloud/org/agenda/"
+;;         org-caldav-calendars
+;;                '((:url "https://nextcloud05.webo.cloud/remote.php/dav/calendars/philipgottschall@gmail.com"
+;;                   :calendar-id "personal-1"
+;;                   :files nil
+;;                   :inbox "~/cloud/org/agenda/Personal.org")
+;;                  (:url "https://nextcloud05.webo.cloud/remote.php/dav/calendars/philipgottschall@gmail.com"
+;;                   :calendar-id "work"
+;;                   :files nil
+;;                   :inbox "~/cloud/org/agenda/Work.org")))
+;;   (add-hook 'org-agenda-mode-hook (lambda () (org-caldav-sync)))
+;;   (add-hook 'org-capture-after-finalize-hook (lambda () (org-caldav-sync))))
 
 
-(use-package! plstore
-  :config
-  (setq plstore-cache-passphrase-for-symmetric-encryption t))
+;; (use-package! plstore
+;;   :config
+;;   (setq plstore-cache-passphrase-for-symmetric-encryption t))
 
 
 (defun efs/org-font-setup ()
@@ -160,12 +160,12 @@
   (setq org-hide-emphasis-markers t)
 
   (setq org-agenda-files
-        '("~/Dropbox/org/agenda/Tasks.org"
-          "~/Dropbox/org/agenda/Personal.org"
-          "~/Dropbox/org/agenda/Work.org"
-          "~/Dropbox/org/agenda/Uni.org"
-          "~/Dropbox/org/agenda/Projects.org"
-          "~/Dropbox/org/agenda/Birthday.org"))
+        '("~/cloud/org/agenda/Tasks.org"
+          "~/cloud/org/agenda/Personal.org"
+          "~/cloud/org/agenda/Work.org"
+          "~/cloud/org/agenda/Uni.org"
+          "~/cloud/org/agenda/Projects.org"
+          "~/cloud/org/agenda/Birthday.org"))
 
   (setq org-todo-keywords
         '((sequence "WAIT(v)" "TODO(t)" "NEXT(n)" "WIP(w)" "|" "DONE(d!)" "CANCEL(c)")
@@ -250,21 +250,21 @@
   ;; Captures
   (setq org-capture-templates
     `(("t" "Tasks")
-      ("tt" "Todo" entry (file "~/Dropbox/org/agenda/Tasks.org")
+      ("tt" "Todo" entry (file "~/cloud/org/agenda/Tasks.org")
            "* TODO %? %^{Task} \t %^G\n  %u\n  %i" :empty-lines 1)
-      ("tn" "Next" entry (file "~/Dropbox/org/agenda/Tasks.org")
+      ("tn" "Next" entry (file "~/cloud/org/agenda/Tasks.org")
            "* NEXT %?  %^{Task}  %^G\n  %u\n  %i" :empty-lines 1)
-      ("tw" "Work in Progress" entry (file "~/Dropbox/org/agenda/Tasks.org")
+      ("tw" "Work in Progress" entry (file "~/cloud/org/agenda/Tasks.org")
            "* WIP %? %^{Task} %^G\n %u\n SCHEDULED: %t %i" :empty-lines 1)
 
       ("p" "Projects")
-      ("pn" "Idea" entry (file "~/Dropbox/org/agenda/Tasks.org")
+      ("pn" "Idea" entry (file "~/cloud/org/agenda/Tasks.org")
            "* IDEA %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
       ("a" "Appointment")
-      ("ap" "Personal" entry (file "~/Dropbox/org/agenda/Personal.org")
+      ("ap" "Personal" entry (file "~/cloud/org/agenda/Personal.org")
        "* %? %^{Event}\n %^T %i" :empty-lines 1)
-      ("aw" "Work" entry (file "~/Dropbox/org/agenda/Work.org")
+      ("aw" "Work" entry (file "~/cloud/org/agenda/Work.org")
        "* %? %^{Event}\n %^T %i" :empty-lines 1))))
 
 
@@ -540,6 +540,7 @@
   :config
   (add-hook 'org-mode-hook 'org-xournalpp-mode))
 
+(use-package! ox-ipynb)
 
 (defun efs/org-mode-visual-fill ()
   (setq visual-fill-column-width 100

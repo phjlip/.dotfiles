@@ -18,6 +18,10 @@
            :repo "vherrmann/org-xournalpp"
            :files ("resources" "*.el")))
 
+(package! ox-ipynb
+  :recipe (:host github
+           :repo "jkitchin/ox-ipynb"))
+
 (package! visual-fill-column)
 (package! oauth2)
 
