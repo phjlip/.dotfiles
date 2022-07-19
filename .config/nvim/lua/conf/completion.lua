@@ -2,25 +2,45 @@
 --   Completion Config   --
 --=======================--
 
-require('global') -- termcodes
+-- nvim-cmp setup
+local cmp = require 'cmp'
+local luasnip = require 'luasnip'
 
--- Use also when lsp is off for other completion sources
-vim.cmd("autocmd BufEnter * lua require'completion'.on_attach()")
-
--- Use <Tab> and <S-Tab> to navigate through popup menu
-vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.smart_tab("<C-n>", "<Tab>")', { expr=true, noremap=true })
-vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.smart_tab("<C-p>", "<S-Tab>")', { expr=true, noremap=true })
-
--- Set completeopt to have a better completion experience
-vim.o.completeopt = "menuone,noinsert,noselect"
-
--- Avoid showing message extra message when using completion
-vim.o.shortmess = string.format("%s%s" ,vim.o.shortmess, "c")
-
-vim.g.chain_complete_list = {
-  default = {
-    {complete_items = {'lsp', 'ts', 'snippet'}},
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert {
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
   },
 }
-
-vim.g.completion_auto_change_source = 1
