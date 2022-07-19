@@ -50,8 +50,8 @@ HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.zsh_history
 RANGER_LOAD_DEFAULT_RC=FALSE
-VISUAL=nvim
-EDITOR=nvim
+export VISUAL=nvim
+export EDITOR=nvim
 
 # Use modern completion system
 autoload -Uz compinit
