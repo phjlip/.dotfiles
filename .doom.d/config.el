@@ -15,7 +15,7 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "Iosevka nerd font" :size 16)
+(setq doom-font (font-spec :family "Iosevka nerd font" :size 15)
       doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -59,11 +59,12 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-
+;; Key Mappings
 (map! :map (outline-mode-map global-map evil-org-mode-map)
-      :niver "C-s" 'evil-write
-      :nv    "C-j" 'evil-forward-paragraph
-      :nv    "C-k" 'evil-backward-paragraph)
+      :niver "C-s"    'evil-write
+      :n     "<esc>"  'evil-write
+      :nv    "C-j"   'evil-forward-paragraph
+      :nv    "C-k"   'evil-backward-paragraph)
 
 (map! :map (evil-org-mode-map)
       :nv       "j"     'evil-next-visual-line
@@ -74,45 +75,6 @@
       "M-H"    'org-agenda-date-earlier-hours
       "M-l"    'org-agenda-date-later-minutes
       "M-h"    'org-agenda-date-earlier-minutes)
-
-
-;; (use-package! auth-source
-;;   :init
-;;   (setq auth-source-debug t
-;;         auth-source-do-cache t))
-
-
-;; (use-package! auth-source-pass
-;;   :init
-;;   (setq auth-sources nil)
-;;   (auth-source-pass-enable))
-
-
-;; (use-package! org-caldav
-;;   :init
-;;   (setq org-caldav-delete-org-entries 'always
-;;         org-caldav-delete-calendar-entries 'always
-;;         org-caldav-sync-changes-to-org 'all
-;;         org-caldav-show-sync-results nil
-;;         org-caldav-backup-file "~/cloud/org/agenda/org-caldav-backup.org"
-;;         org-icalendar-timezone "Europe/Berlin"
-;;         org-caldav-save-directory "~/cloud/org/agenda/"
-;;         org-caldav-calendars
-;;                '((:url "https://nextcloud05.webo.cloud/remote.php/dav/calendars/philipgottschall@gmail.com"
-;;                   :calendar-id "personal-1"
-;;                   :files nil
-;;                   :inbox "~/cloud/org/agenda/Personal.org")
-;;                  (:url "https://nextcloud05.webo.cloud/remote.php/dav/calendars/philipgottschall@gmail.com"
-;;                   :calendar-id "work"
-;;                   :files nil
-;;                   :inbox "~/cloud/org/agenda/Work.org")))
-;;   (add-hook 'org-agenda-mode-hook (lambda () (org-caldav-sync)))
-;;   (add-hook 'org-capture-after-finalize-hook (lambda () (org-caldav-sync))))
-
-
-;; (use-package! plstore
-;;   :config
-;;   (setq plstore-cache-passphrase-for-symmetric-encryption t))
 
 
 (defun efs/org-font-setup ()
@@ -139,7 +101,7 @@
   ;; (set-face-attribute 'org-indent nil   :inherit '(org-hide fixed-pitch))
   (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-verbatim nil :foreground "MediumPurple1" :bold t) ;:inherit '(shadow fixed-pitch)
+  ;; (set-face-attribute 'org-verbatim nil :foreground "MediumPurple1" :bold t) ;:inherit '(shadow fixed-pitch)
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch))
@@ -161,10 +123,7 @@
 
   (setq org-agenda-files
         '("~/cloud/org/agenda/Tasks.org"
-          "~/cloud/org/agenda/Personal.org"
-          "~/cloud/org/agenda/Work.org"
-          "~/cloud/org/agenda/Uni.org"
-          "~/cloud/org/agenda/Projects.org"
+          "~/cloud/org/agenda/Inbox.org"
           "~/cloud/org/agenda/Birthday.org"))
 
   (setq org-todo-keywords
@@ -261,6 +220,9 @@
       ("pn" "Idea" entry (file "~/cloud/org/agenda/Tasks.org")
            "* IDEA %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
+      ("n" "Inbox" entry (file "~/cloud/org/agenda/Inbox.org")
+           "* TODO %?\n" :empty-lines 1)
+
       ("a" "Appointment")
       ("ap" "Personal" entry (file "~/cloud/org/agenda/Personal.org")
        "* %? %^{Event}\n %^T %i" :empty-lines 1)
@@ -280,6 +242,19 @@
               str (concat str "──")))
       (concat str "►"))))
 
+(defun agenda-prefix-projects ()
+  (format "%s" (agenda-indent-string-projects (org-current-level))))
+
+(defun agenda-indent-string-projects (level)
+  (if (= level 1)
+      "\n\n--------------------------\n\n"
+    (if (= level 2)
+        "~~~\n\n"
+    (let ((str " ╰─"))
+      (while (> level 3)
+        (setq level (1- level)
+              str (concat str "──")))
+      (concat str "►")))))
 
 (use-package! org-super-agenda
   :after org-agenda
@@ -301,7 +276,17 @@
   ;; (setq org-log-into-drawer t)
   (setq org-agenda-custom-commands
         '(("d" "Dashboard"
-           ((agenda "" ((org-deadline-warning-days 7)))
+           (;;(agenda "" ((org-deadline-warning-days 7)))
+            (todo "" ((org-agenda-overriding-header "Overview")
+                      (org-super-agenda-groups
+                        '((:name "Today"
+                                :todo "WIP")
+                          (:name "Next"
+                                :todo "NEXT")
+                          (:name "Inbox"
+                                :and (:todo t
+                                      :file-path "~/cloud/org/agenda/Inbox.org"))
+                         (:discard (:anything))))))
             (todo "" ((org-agenda-overriding-header "Work Tasks")
                       (org-agenda-prefix-format " %e %(my-agenda-prefix) ")
                       (org-tags-match-list-sublevels t)
@@ -309,16 +294,16 @@
                         '((:name "To Do"
                                 :and (:todo t
                                       :tag "@work"))
-                         (:name "Next in Line"
-                                :and (:todo "NEXT"
-                                      :children nil
-                                      :tag "@work"))
-                         (:name "Doing"
-                                :and (:todo "WIP"
-                                      :tag "@work"))
-                         (:name "Done"
-                                :and (:todo "DONE"
-                                      :tag "@work"))
+                         ;; (:name "Next in Line"
+                         ;;        :and (:todo "NEXT"
+                         ;;              :children nil
+                         ;;              :tag "@work"))
+                         ;; (:name "Doing"
+                         ;;        :and (:todo "WIP"
+                         ;;              :tag "@work"))
+                         ;; (:name "Done"
+                         ;;        :and (:todo "DONE"
+                         ;;              :tag "@work"))
                          (:discard (:anything))))))
             (todo "" ((org-agenda-overriding-header "University Tasks")
                       (org-agenda-prefix-format " %e %(my-agenda-prefix) ")
@@ -374,7 +359,7 @@
                                 :and (:todo "DONE"
                                       :tag "@private"))
                          (:discard (:anything))))))))
-          ("p" "Projects"
+          ("j" "Overview Projects"
            ((todo "" ((org-agenda-overriding-header "Projects")
                       (org-agenda-files org-agenda-files)
                       (org-super-agenda-groups
@@ -390,6 +375,14 @@
                                 :todo "FINISHED")
                          (:name "Canceled"
                                 :todo "CANCELED")
+                         (:discard (:anything))))))))
+          ("p" "Projects"
+           ((todo "" ((org-agenda-overriding-header "Project Tasks")
+                      (org-agenda-prefix-format " %e %(agenda-prefix-projects) ")
+                      (org-tags-match-list-sublevels t)
+                      (org-super-agenda-groups
+                       '((:name "Projects"
+                                :tag "@project")
                          (:discard (:anything))))))))
           ("c" . "Context Kanbans")
           ("cw" "Work"
