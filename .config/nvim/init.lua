@@ -22,10 +22,22 @@ require('packer').startup(function(use)
   -- IDE Things
   use 'nvim-treesitter/nvim-treesitter'                                           -- Highlight, edit, and navigate code
   use 'nvim-treesitter/nvim-treesitter-textobjects'                               -- Additional textobjects for treesitter
-  use 'neovim/nvim-lspconfig'                                                     -- Collection of configurations for built-in LSP client
-  use 'williamboman/nvim-lsp-installer'                                           -- Automatically install language servers to stdpath
-  use { 'hrsh7th/nvim-cmp', requires = { 'hrsh7th/cmp-nvim-lsp' } }               -- Autocompletion
-  use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }           -- Snippet Engine and Snippet Expansion
+  use {
+    'neovim/nvim-lspconfig',
+    requires = {
+      -- Automatically install LSPs to stdpath for neovim
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+    }                                                     -- Collection of configurations for built-in LSP client
+  }                                                     -- Collection of configurations for built-in LSP client
+  use {                                                                           -- Autocompletion
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip'
+    }
+  }
   -- use 'tpope/vim-fugitive'                                                        -- Git commands in nvim
   -- use 'tpope/vim-rhubarb'                                                         -- Fugitive-companion to interact with github
 
@@ -42,13 +54,18 @@ require('packer').startup(function(use)
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable "make" == 1 }
   use 'kevinhwang91/rnvimr'                                                       -- ranger integration
 
-  -- Colors
+  -- Bling
   use 'p00f/nvim-ts-rainbow'
   use 'norcalli/nvim-colorizer.lua'
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }       -- Add git related info in the signs columns and popups
-  use 'navarasu/onedark.nvim'                                                     -- Theme inspired by Atom
   use 'lukas-reineke/indent-blankline.nvim'                                       -- Add indentation guides even on blank lines
   use 'kyazdani42/nvim-web-devicons'
+
+  -- Colorschemes
+  use 'sam4llis/nvim-tundra'
+  use 'navarasu/onedark.nvim'                                                     -- Theme inspired by Atom
+  use "EdenEast/nightfox.nvim"
+  use { "catppuccin/nvim", as = "catppuccin" }
 
   -- UI
   use 'romgrk/barbar.nvim'
@@ -101,7 +118,6 @@ vim.o.hlsearch          = false       -- highlight search
 vim.o.ignorecase        = true        -- Ignore case when searching
 vim.o.smartcase         = true        -- Don't ignore case when searching for capital letter
 
-vim.wo.breakindent      = true        -- Continue at indentation level after linebreak
 vim.wo.linebreak        = true        -- Breaks line after / before word, not in the middle
 vim.o.expandtab         = true        -- Always use spaces
 
@@ -129,6 +145,12 @@ vim.keymap.set('n', '<C-j>', '}', { noremap = true })
 vim.keymap.set('n', '<C-k>', '{', { noremap = true })
 vim.keymap.set('v', '<C-j>', '}', { noremap = true })
 vim.keymap.set('v', '<C-k>', '{', { noremap = true })
+
+vim.keymap.set('n', '<Leader>ws', ':split<CR>', { noremap = true })
+vim.keymap.set('n', '<Leader>wh', '<C-w>h', { noremap = true })
+vim.keymap.set('n', '<Leader>wj', '<C-w>j', { noremap = true })
+vim.keymap.set('n', '<Leader>wk', '<C-w>k', { noremap = true })
+vim.keymap.set('n', '<Leader>wl', '<C-w>l', { noremap = true })
 
 vim.keymap.set('n', '<CR>', 'o<esc>k', { noremap = true })
 
@@ -167,16 +189,13 @@ require('conf.treesitter')
 require('conf.telescope')
 require('conf.colorizer')
 require('conf.rainbow')
-require('conf.lualine.bubbles')
+require('conf.lualine.evilline_tundra')
 require('conf.barbar')
 require('conf.lsp')
 require('conf.completion')
 require('conf.indent')
 
 require('Comment').setup()
-
-require('onedark').setup{ style = 'darker' }
-require('onedark').load()
 
 require('gitsigns').setup {
   signs = {
@@ -188,7 +207,27 @@ require('gitsigns').setup {
   },
 }
 
-require("which-key").setup{}
+require('which-key').setup{}
+
+-- require('onedark').setup{ style = 'darker' }
+-- require('onedark').load()
+vim.opt.background = 'dark'
+require('catppuccin').setup {
+  color_overrides = {
+    mocha = {
+      base = "#111827",
+    },
+  },
+  highlight_overrides = {
+    mocha = function(mocha)
+      return {
+        CursorLineNr = { fg = mocha.yellow },
+      }
+    end,
+  },
+}
+vim.cmd('colorscheme catppuccin-mocha')
+
 -- Language specific folding (ToDo Should be off when starting a file)
 -- set foldmethod=expr
 -- set foldexpr=nvim_treesitter#foldexpr()
