@@ -17,6 +17,15 @@ require('nvim-treesitter.configs').setup {
   },
   rainbow = {
     enable = true,
+    colors = {
+       "#56b6c2",
+       "#61afef",
+       "#c678dd",
+       "#e5c07b",
+       "#98c379",
+       "#56b6c2",
+       "#d19a66"
+    },
     extended_mode = true,
   },
   textobjects = {
@@ -25,7 +34,8 @@ require('nvim-treesitter.configs').setup {
       lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
-        ['af'] = '@function.outer',
+        ['aa'] = '@parameter.outer',
+        ['ia'] = '@parameter.outer',
         ['if'] = '@function.inner',
         ['ac'] = '@class.outer',
         ['ic'] = '@class.inner',
