@@ -31,12 +31,13 @@ if [[ $distroId == *"Ubuntu"* ]]; then
     zsh-autosuggestions
 
   git clone https://github.com/zsh-users/zsh-history-substring-search $HOME/.local/share/zsh/plugins/zsh-history-substring-search
-  sudo mv -n $HOME/.local/share/zsh/plugins/zsh-history-substring-search /usr/share/zsh/plugins/zsh-history-substring-search
+  sudo mkdir -p /usr/share/zsh/plugins/
+  sudo mv -n $HOME/.local/share/zsh/plugins/zsh-history-substring-search /usr/share/zsh/plugins/
 
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
   tar -xf nvim-linux64.tar.gz
-  mv -n nvim-linux64/bin/nvim .local/bin/
-  sudo chmod -x .local/bin/nvim
+  mv -n nvim-linux64/bin/nvim $HOME/.local/bin/
+  sudo chmod +x $HOME/.local/bin/nvim
   sudo rm -rf nvim-linux64.tar.gz
   sudo rm -rf nvim-linux64
 
