@@ -36,8 +36,8 @@ if [[ $distroId == *"Ubuntu"* ]]; then
 
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
   tar -xf nvim-linux64.tar.gz
-  mv -n nvim-linux64/bin/nvim $HOME/.local/bin/
-  sudo chmod +x $HOME/.local/bin/nvim
+  sudo chmod +x nvim-linux64/bin/nvim
+  sudo mv -n nvim-linux64/bin/nvim /usr/bin/
   sudo rm -rf nvim-linux64.tar.gz
   sudo rm -rf nvim-linux64
 
