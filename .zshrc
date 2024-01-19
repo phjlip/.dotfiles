@@ -10,7 +10,7 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
   exec startx
 fi
 
-echo "\033[32;1m$(fortune | cowsay -f tux)\033[0m \n"
+# echo "\033[32;1m$(fortune | cowsay -f tux)\033[0m \n"
 
 # Cursor Style
 function zle-line-init zle-keymap-select {
@@ -82,3 +82,6 @@ stty -ixon
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+# profile for local machine
+source ~/.zprofile

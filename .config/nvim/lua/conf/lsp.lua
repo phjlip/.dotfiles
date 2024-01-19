@@ -55,7 +55,7 @@ end
 require('mason').setup()
 
 -- Enable the following language servers
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua', 'texlab' }
 
 -- Ensure the servers above are installed
 require('mason-lspconfig').setup {

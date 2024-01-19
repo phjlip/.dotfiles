@@ -45,6 +45,7 @@ require('packer').startup(function(use)
   use 'numToStr/Comment.nvim'                                                     -- "gc" to comment visual regions/lines
   use 'jiangmiao/auto-pairs'
   use 'tpope/vim-sleuth'                                                          -- Detect tabstop and shiftwidth automatically
+  use { 'kylechui/nvim-surround', tag = "*" }
 
   -- Functional
   use 'nvim-lua/popup.nvim'
@@ -208,6 +209,7 @@ require('gitsigns').setup {
 }
 
 require('which-key').setup{}
+require('nvim-surround').setup{}
 
 -- require('onedark').setup{ style = 'darker' }
 -- require('onedark').load()
@@ -215,7 +217,7 @@ vim.opt.background = 'dark'
 require('catppuccin').setup {
   color_overrides = {
     mocha = {
-      base = "#111827",
+      base = '#111827',
     },
   },
   highlight_overrides = {

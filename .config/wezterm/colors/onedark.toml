@@ -1,0 +1,33 @@
+[colors]
+ansi = [
+    '#353a44',
+    '#e88388',
+    '#a7cc8c',
+    '#ebca8d',
+    '#72bef2',
+    '#d291e4',
+    '#65c2cd',
+    '#e3e5e9',
+]
+background = '#21242b'
+brights = [
+    '#353a44',
+    '#e88388',
+    '#a7cc8c',
+    '#ebca8d',
+    '#72bef2',
+    '#d291e4',
+    '#65c2cd',
+    '#e3e5e9',
+]
+cursor_bg = '#bbbbbb'
+cursor_border = '#bbbbbb'
+cursor_fg = '#ffffff'
+foreground = '#e3e5e9'
+selection_bg = '#3e4452'
+selection_fg = '#e3e5e9'
+
+[colors.indexed]
+
+[metadata]
+name = 'One Dark'
