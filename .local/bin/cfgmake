@@ -20,6 +20,7 @@ config checkout
 config config status.showUntrackedFiles no
 
 distroId=$(cat /etc/*-release | head -n1)
+distroVersion=$(cat /etc/*-release | cut -f2 -d'=' | sed -n 2p)
 if [[ $distroId == *"Ubuntu"* ]]; then
   echo "Machine runs Ubuntu"
   echo "Installing some programs..."
@@ -27,12 +28,19 @@ if [[ $distroId == *"Ubuntu"* ]]; then
     zsh \
     git \
     ranger \
+    cargo \
+    curl \
     zsh-syntax-highlighting \
     zsh-autosuggestions
+
+  cargo install ripgrep exa fd-find
 
   git clone https://github.com/zsh-users/zsh-history-substring-search $HOME/.local/share/zsh/plugins/zsh-history-substring-search
   sudo mkdir -p /usr/share/zsh/plugins/
   sudo mv -n $HOME/.local/share/zsh/plugins/zsh-history-substring-search /usr/share/zsh/plugins/
+
+  curl -LO https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.Ubuntu$distroVersion.deb
+  sudo apt install -y ./wezterm-20230712-072601-f4abf8fd.Ubuntu$distroVersion.deb
 
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
   tar -xf nvim-linux64.tar.gz

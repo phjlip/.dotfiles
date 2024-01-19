@@ -17,20 +17,23 @@ end
 
 -- stylua: ignore start
 require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'                                                    -- Package manager
+  use 'wbthomason/packer.nvim'                      -- Package manager
 
   -- IDE Things
-  use 'nvim-treesitter/nvim-treesitter'                                           -- Highlight, edit, and navigate code
-  use 'nvim-treesitter/nvim-treesitter-textobjects'                               -- Additional textobjects for treesitter
+  use {
+    'nvim-treesitter/nvim-treesitter',              -- Highlight, edit, and navigate code
+    run = ':TSUpdate'
+  }
+  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
   use {
     'neovim/nvim-lspconfig',
     requires = {
       -- Automatically install LSPs to stdpath for neovim
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-    }                                                     -- Collection of configurations for built-in LSP client
-  }                                                     -- Collection of configurations for built-in LSP client
-  use {                                                                           -- Autocompletion
+      'williamboman/mason.nvim',                    -- Collection of configurations for built-in LSP client
+      'williamboman/mason-lspconfig.nvim',          -- Collection of configurations for built-in LSP client
+    }
+  }
+  use {                                             -- Autocompletion
     'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-nvim-lsp',
@@ -38,13 +41,11 @@ require('packer').startup(function(use)
       'saadparwaiz1/cmp_luasnip'
     }
   }
-  -- use 'tpope/vim-fugitive'                                                        -- Git commands in nvim
-  -- use 'tpope/vim-rhubarb'                                                         -- Fugitive-companion to interact with github
 
   -- Text Editing
-  use 'numToStr/Comment.nvim'                                                     -- "gc" to comment visual regions/lines
+  use 'numToStr/Comment.nvim'                        -- "gc" to comment visual regions/lines
   use 'jiangmiao/auto-pairs'
-  use 'tpope/vim-sleuth'                                                          -- Detect tabstop and shiftwidth automatically
+  use 'tpope/vim-sleuth'                             -- Detect tabstop and shiftwidth automatically
   use { 'kylechui/nvim-surround', tag = "*" }
 
   -- Functional

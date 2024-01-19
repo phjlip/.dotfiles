@@ -2,12 +2,26 @@
 #|   ZSH Config   |
 #==================
 
+# STARTUP for WM
+# if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+#   exec startx
+# fi
+#
+
 # Prompt
 source ~/.zsh/powerprompt.zsh
 
-# STARTUP
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  exec startx
+# XSettings
+xset r rate 250 100
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# add Rust bins to path
+if [ -d "$HOME/.cargo/bin" ] ; then
+    PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # echo "\033[32;1m$(fortune | cowsay -f tux)\033[0m \n"

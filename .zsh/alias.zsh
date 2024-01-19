@@ -7,10 +7,6 @@ alias rm='rm -i'
 
 alias tmux='TERM=xterm-256color tmux'
 
-alias v=/usr/bin/vim
-alias vi=nvim -u ~/.config/nvim/minit.lua
-alias vim=nvim
-
 alias ra=ranger
 
 alias scrotroam='scrot -s ~/cloud/roam/fig/%b%d::%H-%M-%S.png'
