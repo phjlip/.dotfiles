@@ -1,20 +1,45 @@
 #!/usr/bin/bash
 
-git clone --bare https://github.com/phjlip/.dotfiles $HOME/.dotfiles
+# git clone --bare https://github.com/phjlip/.dotfiles $HOME/.dotfiles
+#
+# function config {
+#    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
+# }
+#
+# mkdir -p .dotfiles-backup
+# config checkout
+#
+# if [ $? = 0 ]; then
+#   echo "Checked out dotfiles.";
+#   else
+#     echo "Backing up pre-existing dot files.";
+#     config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
+# fi;
+#
+# config checkout
+# config config status.showUntrackedFiles no
 
-function config {
-   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
-}
+distroId=$(cat /etc/*-release | head -n1)
+if [[ $distroId == *"Ubuntu"* ]]; then
+  echo "Machine runs Ubuntu"
+  echo "Installing some programs..."
+  sudo apt-get install -y \
+    zsh \
+    git \
+    ranger \
+    zsh-syntax-highlighting \
+    zsh-autosuggestions
 
-mkdir -p .dotfiles-backup
-config checkout
+  git clone https://github.com/zsh-users/zsh-history-substring-search $HOME/.local/share/zsh/plugins/zsh-history-substring-search
+  sudo mv -n $HOME/.local/share/zsh/plugins/zsh-history-substring-search /usr/share/zsh/plugins/zsh-history-substring-search
 
-if [ $? = 0 ]; then
-  echo "Checked out dotfiles.";
-  else
-    echo "Backing up pre-existing dot files.";
-    config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
-fi;
+  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+  tar -xf nvim-linux64.tar.gz
+  mv -n nvim-linux64/bin/nvim .local/bin/
+  sudo chmod -x .local/bin/nvim
+  sudo rm -rf nvim-linux64.tar.gz
+  sudo rm -rf nvim-linux64
 
-config checkout
-config config status.showUntrackedFiles no
+  echo "Changing default shell"
+  sudo chsh -s /usr/bin/zsh
+fi
