@@ -2,115 +2,118 @@
 --|  Neovim Configuration  |
 --==========================
 
--- Install packer
-local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-local is_bootstrap = false
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  is_bootstrap = true
-  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
-  vim.cmd [[packadd packer.nvim]]
-end
-
---============
---| Plugins  |
---============
-
--- stylua: ignore start
-require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'                      -- Package manager
-
-  -- IDE Things
-  use {
-    'nvim-treesitter/nvim-treesitter',              -- Highlight, edit, and navigate code
-    run = ':TSUpdate'
-  }
-  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
-  use {
-    'neovim/nvim-lspconfig',
-    requires = {
-      -- Automatically install LSPs to stdpath for neovim
-      'williamboman/mason.nvim',                    -- Collection of configurations for built-in LSP client
-      'williamboman/mason-lspconfig.nvim',          -- Collection of configurations for built-in LSP client
-    }
-  }
-  use {                                             -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip'
-    }
-  }
-
-  -- Text Editing
-  use 'numToStr/Comment.nvim'                        -- "gc" to comment visual regions/lines
-  use 'jiangmiao/auto-pairs'
-  use 'tpope/vim-sleuth'                             -- Detect tabstop and shiftwidth automatically
-  use { 'kylechui/nvim-surround', tag = "*" }
-
-  -- Functional
-  use 'nvim-lua/popup.nvim'
-  use 'nvim-lua/plenary.nvim'
-  use 'folke/which-key.nvim'                                                      -- popup showing keybindings
-  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Fuzzy Finder (files, lsp, etc)
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable "make" == 1 }
-  use 'kevinhwang91/rnvimr'                                                       -- ranger integration
-
-  -- Bling
-  use 'p00f/nvim-ts-rainbow'
-  use 'norcalli/nvim-colorizer.lua'
-  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }       -- Add git related info in the signs columns and popups
-  use 'lukas-reineke/indent-blankline.nvim'                                       -- Add indentation guides even on blank lines
-  use 'kyazdani42/nvim-web-devicons'
-
-  -- Colorschemes
-  use 'sam4llis/nvim-tundra'
-  use 'navarasu/onedark.nvim'                                                     -- Theme inspired by Atom
-  use "EdenEast/nightfox.nvim"
-  use { "catppuccin/nvim", as = "catppuccin" }
-
-  -- UI
-  use 'romgrk/barbar.nvim'
-  use 'nvim-lualine/lualine.nvim'
-
-  if is_bootstrap then
-    require('packer').sync()
-  end
-end)
--- stylua: ignore end
-
--- When we are bootstrapping a configuration, it doesn't
--- make sense to execute the rest of the init.lua.
---
--- You'll need to restart nvim, and then it will work.
-if is_bootstrap then
-  print '=================================='
-  print '    Plugins are being installed'
-  print '    Wait until Packer completes,'
-  print '       then restart nvim'
-  print '=================================='
-  return
-end
-
--- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost', {
-  command = 'source <afile> | PackerCompile',
-  group = packer_group,
-  pattern = vim.fn.expand '$MYVIMRC',
-})
-
 -- Leader Key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- if (vim.fn.has("termguicolors")) then
 vim.api.nvim_set_var("&t_8f", "\\<Esc>[38;2;%lu;%lu;%lum")
 vim.api.nvim_set_var("&t_8b", "\\<Esc>[48;2;%lu;%lu;%lum")
 vim.o.termguicolors = true
--- else
---   vim.api.nvim_set_option("t_Co", 256)
--- end
+
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system {
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  }
+end
+vim.opt.rtp:prepend(lazypath)
+
+require('lazy').setup({
+
+  -- IDE Things
+  {
+    -- LSP Configuration & Plugins
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      -- Automatically install LSPs to stdpath for neovim
+      { 'williamboman/mason.nvim', config = true },
+      'williamboman/mason-lspconfig.nvim',
+
+      -- Useful status updates for LSP
+      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+      { 'j-hui/fidget.nvim', opts = {} },
+    },
+  },
+
+  {
+    -- Autocompletion
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      -- Snippet Engine & its associated nvim-cmp source
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+
+      -- Adds LSP completion capabilities
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+
+      -- Adds a number of user-friendly snippets
+      'rafamadriz/friendly-snippets',
+    },
+  },
+
+  {
+    -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    build = ':TSUpdate',
+  },
+
+  -- Text Editing
+  { 'numToStr/Comment.nvim', opts = {} },                       -- "gc" to comment visual regions/lines
+  { 'kylechui/nvim-surround', version = "*", opts = {} },
+  'jiangmiao/auto-pairs',
+  'tpope/vim-sleuth',
+
+  -- Fuzzy Finder (files, lsp, etc)
+  {
+    'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+      -- Only load if `make` is available. Make sure you have the system
+      -- requirements installed.
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        -- NOTE: If you are having trouble with this installation,
+        --       refer to the README for telescope-fzf-native for more instructions.
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+      },
+    },
+  },
+
+  -- Functional
+  { 'folke/which-key.nvim', opts = {} },                       -- popup showing keybindings
+  { 'kevinhwang91/rnvimr' },                                   -- ranger integration
+
+  -- Bling
+  { 'norcalli/nvim-colorizer.lua', opts = {} },
+
+  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
+  { 'kyazdani42/nvim-web-devicons' },
+
+  -- require 'conf.gitsigns',
+  { 'catppuccin/nvim', name = 'catppuccin', lazy = false, priority = 1000 },
+
+  -- UI
+  { 'romgrk/barbar.nvim', opts = {} },
+  { 'nvim-lualine/lualine.nvim', opts = {} },
+}, {})
+
+vim.api.nvim_set_var("&t_8f", "\\<Esc>[38;2;%lu;%lu;%lum")
+vim.api.nvim_set_var("&t_8b", "\\<Esc>[48;2;%lu;%lu;%lum")
+vim.o.termguicolors = true
 
 vim.wo.relativenumber   = true        -- relative linenumbers
 vim.wo.number           = true        -- show current line
@@ -161,11 +164,11 @@ vim.keymap.set('n', '<CR>', 'o<esc>k', { noremap = true })
 vim.keymap.set('v', '<C-y>', '"+y', { noremap = true })
 -- vim.keymap.set('n', '<C-p>', '"+p', { noremap = true })
 
---Remap for dealing with word wrap
+-- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
 
--- [[ Highlight on yank ]]
+-- Highlight on yank
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -189,48 +192,12 @@ vim.keymap.set('n', '<M-o>', ':RnvimrToggle<CR>', { noremap = true, silent = tru
 
 require('conf.treesitter')
 require('conf.telescope')
-require('conf.colorizer')
-require('conf.rainbow')
-require('conf.lualine.evilline_tundra')
 require('conf.barbar')
 require('conf.lsp')
 require('conf.completion')
 require('conf.indent')
+require('conf.lualine.evilline_tundra')
+require('conf.catppuccin')
 
-require('Comment').setup()
-
-require('gitsigns').setup {
-  signs = {
-    add = { text = '+' },
-    change = { text = '~' },
-    delete = { text = '_' },
-    topdelete = { text = '‾' },
-    changedelete = { text = '~' },
-  },
-}
-
-require('which-key').setup{}
-require('nvim-surround').setup{}
-
--- require('onedark').setup{ style = 'darker' }
--- require('onedark').load()
 vim.opt.background = 'dark'
-require('catppuccin').setup {
-  color_overrides = {
-    mocha = {
-      base = '#111827',
-    },
-  },
-  highlight_overrides = {
-    mocha = function(mocha)
-      return {
-        CursorLineNr = { fg = mocha.yellow },
-      }
-    end,
-  },
-}
 vim.cmd('colorscheme catppuccin-mocha')
-
--- Language specific folding (ToDo Should be off when starting a file)
--- set foldmethod=expr
--- set foldexpr=nvim_treesitter#foldexpr()

@@ -31,7 +31,11 @@ if [[ $distroId == *"Ubuntu"* ]]; then
     cargo \
     curl \
     zsh-syntax-highlighting \
-    zsh-autosuggestions
+    zsh-autosuggestions \
+    ninja-build \
+    gettext \
+    cmake \
+    unzip
 
   cargo install ripgrep exa fd-find
 
@@ -42,12 +46,11 @@ if [[ $distroId == *"Ubuntu"* ]]; then
   curl -LO https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.Ubuntu$distroVersion.deb
   sudo apt install -y ./wezterm-20230712-072601-f4abf8fd.Ubuntu$distroVersion.deb
 
-  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-  tar -xf nvim-linux64.tar.gz
-  sudo chmod +x nvim-linux64/bin/nvim
-  sudo mv -n nvim-linux64/bin/nvim /usr/bin/
-  sudo rm -rf nvim-linux64.tar.gz
-  sudo rm -rf nvim-linux64
+  git clone https://github.com/neovim/neovim
+  cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
+  cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+  cd ../..
+  rm -rf neovim
 
   echo "Changing default shell"
   sudo chsh -s /usr/bin/zsh
