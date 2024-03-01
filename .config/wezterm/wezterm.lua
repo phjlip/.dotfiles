@@ -93,7 +93,7 @@ return {
 	enable_wayland = false,
 
 	-- Keybinds
-	disable_default_key_bindings = true,
+	disable_default_key_bindings = false,
 	keys = {
 		{
 			key = "|",
