@@ -98,7 +98,7 @@ require('lazy').setup({
   { 'kevinhwang91/rnvimr' },                                   -- ranger integration
 
   -- Bling
-  { 'norcalli/nvim-colorizer.lua', opts = {} },
+  { 'NvChad/nvim-colorizer.lua', opts = {} },
 
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
   { 'kyazdani42/nvim-web-devicons' },
