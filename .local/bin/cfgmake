@@ -35,21 +35,24 @@ if [[ $distroId == *"Ubuntu"* ]]; then
     ninja-build \
     gettext \
     cmake \
+    jq \
+    xclip \
+    npm \
     unzip
 
-  cargo install ripgrep exa fd-find
+  cargo install ripgrep exa fd-find@9.0.0
 
   git clone https://github.com/zsh-users/zsh-history-substring-search $HOME/.local/share/zsh/plugins/zsh-history-substring-search
   sudo mkdir -p /usr/share/zsh/plugins/
   sudo mv -n $HOME/.local/share/zsh/plugins/zsh-history-substring-search /usr/share/zsh/plugins/
 
   weztermURL=$(curl -s https://api.github.com/repos/wez/wezterm/releases/latest | jq -r '.assets[0] | .browser_download_url' | cut -d '-' -f-6)
-  weztermVersion=$($weztermURL | cut -d '/' -f8)
+  weztermVersion=$(echo $weztermURL | cut -d '/' -f8)
   curl -LO ${weztermURL}.Ubuntu${distroVersion}.deb
   # curl -LO https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.Ubuntu$distroVersion.deb
-  sudo apt install -y ./wezterm-${weztermVersion}.Ubuntu${distroVersion}.deb
+  sudo dpkg -i ./WezTerm-${weztermVersion}.Ubuntu${distroVersion}.deb
   # sudo apt install -y ./wezterm-20230712-072601-f4abf8fd.Ubuntu$distroVersion.deb
-  rm wezterm-${weztermVersion}.Ubuntu${distroVersion}.deb
+  rm WezTerm-${weztermVersion}.Ubuntu${distroVersion}.deb
   # rm wezterm-20230712-072601-f4abf8fd.Ubuntu$distroVersion.deb
 
   git clone https://github.com/neovim/neovim
@@ -57,6 +60,10 @@ if [[ $distroId == *"Ubuntu"* ]]; then
   cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
   cd ../..
   rm -rf neovim
+
+  touch $HOME/.zprofile
+  echo "Gsettings incoming"
+  gsettings set org.gnome.desktop.interface monospace-font-name "JetBrainsMono Nerd Font Medium 11"
 
   echo "Changing default shell"
   sudo chsh -s /usr/bin/zsh
