@@ -6,10 +6,6 @@
 # if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
 #   exec startx
 # fi
-#
-
-# Prompt
-source ~/.zsh/powerprompt.zsh
 
 # XSettings
 xset r rate 250 100
@@ -28,12 +24,13 @@ fi
 
 # Cursor Style
 function zle-line-init zle-keymap-select {
-    if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
-        echo -ne "\e[1 q"
-
-    elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
-        echo -ne "\e[4 q"
-    fi
+#     if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+#         echo -ne "\e[1 q"
+#
+#     elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
+#         echo -ne "\e[4 q"
+#     fi
+    zle reset-prompt
 }
 
 # Widget
@@ -99,3 +96,7 @@ source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring
 
 # profile for local machine
 source ~/.zprofile
+
+# Prompt
+# source ~/.zsh/powerprompt.zsh
+eval "$(starship init zsh)"

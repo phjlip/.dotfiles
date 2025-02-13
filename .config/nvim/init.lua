@@ -40,22 +40,7 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-
-      -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-
-      -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
-    },
-  },
+  require('plugins.completion'),
 
   {
     -- Highlight, edit, and navigate code
@@ -69,8 +54,11 @@ require('lazy').setup({
   -- Text Editing
   { 'numToStr/Comment.nvim', opts = {} },                       -- "gc" to comment visual regions/lines
   { 'kylechui/nvim-surround', version = "*", opts = {} },
-  'jiangmiao/auto-pairs',
+  -- 'jiangmiao/auto-pairs',
+  require('plugins.autopairs'),
   'tpope/vim-sleuth',
+
+  require('plugins.jump-motion'),
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -95,11 +83,12 @@ require('lazy').setup({
 
   -- Functional
   { 'folke/which-key.nvim', opts = {} },                       -- popup showing keybindings
-  { 'kevinhwang91/rnvimr' },                                   -- ranger integration
+  -- { 'kevinhwang91/rnvimr' },                                   -- ranger integration
+  -- require('plugins.ranger'),
+  require('plugins.neotree'),
 
   -- Bling
   { 'NvChad/nvim-colorizer.lua', opts = {} },
-
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
   { 'kyazdani42/nvim-web-devicons' },
 
@@ -183,7 +172,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.keymap.set('n', 'Y', 'y$', { noremap = true })
 
 -- Rnvimr
-vim.keymap.set('n', '<M-o>', ':RnvimrToggle<CR>', { noremap = true, silent = true })
+-- vim.keymap.set('n', '<M-o>', ':RnvimrToggle<CR>', { noremap = true, silent = true })
 
 
 --===================
@@ -194,7 +183,7 @@ require('conf.treesitter')
 require('conf.telescope')
 require('conf.barbar')
 require('conf.lsp')
-require('conf.completion')
+-- require('conf.completion')
 require('conf.indent')
 require('conf.lualine.evilline_tundra')
 require('conf.catppuccin')
