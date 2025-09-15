@@ -36,16 +36,16 @@ function zle-line-init zle-keymap-select {
 # Widget
 zle -N zle-keymap-select
 zle -N zle-line-init
-zle -N history-substring-search-up
-zle -N history-substring-search-down
+# zle -N history-substring-search-up
+# zle -N history-substring-search-down
 
 # vi keybindings
 bindkey -v
-bindkey "^R" history-incremental-search-backward
-bindkey "^[[A" history-substring-search-up
-bindkey "^[[B" history-substring-search-down
-bindkey -M vicmd "k" history-substring-search-up
-bindkey -M vicmd "j" history-substring-search-down
+# bindkey "^R" history-incremental-search-backward
+# bindkey "^[[A" history-substring-search-up
+# bindkey "^[[B" history-substring-search-down
+# bindkey -M vicmd "k" history-substring-search-up
+# bindkey -M vicmd "j" history-substring-search-down
 
 # alias
 source ~/.zsh/alias.zsh
@@ -92,7 +92,7 @@ stty -ixon
 # sourcing syntax highlighting
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+#source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 # profile for local machine
 source ~/.zprofile
@@ -100,3 +100,5 @@ source ~/.zprofile
 # Prompt
 # source ~/.zsh/powerprompt.zsh
 eval "$(starship init zsh)"
+
+. "$HOME/.cargo/env"

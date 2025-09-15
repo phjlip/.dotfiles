@@ -1,8 +1,8 @@
 
 
 # alias ls='ls -l --color=auto --block-size=KiB --group-directories-first'
-alias ls='exa -l --group-directories-first'
-alias ll='ls -a'
+alias ls='eza -l --group-directories-first'
+alias ll='eza -al'
 alias rm='rm -i'
 
 alias tmux='TERM=xterm-256color tmux'
